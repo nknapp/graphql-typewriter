@@ -1,0 +1,55 @@
+{
+  "name": "tsql",
+  "version": "0.0.0",
+  "description": "convert graphQL schema to TypeScript interfaces (server side)",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nknapp/tsql.git"
+  },
+  "homepage": "https://github.com/nknapp/tsql",
+  "author": {
+    "name": "Nils Knappmeier",
+    "email": "npm@knappi.org",
+    "url": "https://github.com/nknapp"
+  },
+  "bugs": {
+    "url": "https://github.com/nknapp/tsql/issues"
+  },
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "preformat": "standard --version || npm -g install standard",
+    "format": "standard --format",
+    "pretest": "standard --version || npm -g install standard",
+    "test": "mocha --recursive && standard",
+    "thought": "thought run -a",
+    "prethoughtcheck": "thought --version || npm -g install thought",
+    "thoughtcheck": "thought check-engines",
+    "version": "thoughtful changelog -o -a && npm run thought",
+    "preversion": "npm run thoughtcheck"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/graphql": "^0.7.2",
+    "ghooks": "^1.0.3",
+    "graphql": "^0.7.2",
+    "mocha": "^2.3.3",
+    "thoughtful-release": "^0.3.0"
+  },
+  "standard": {
+    "ignore": [
+      "test/fixtures/**"
+    ]
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "bin"
+  ],
+  "config": {
+    "ghooks": {
+      "pre-commit": "standard"
+    }
+  },
+  "keywords": []
+}

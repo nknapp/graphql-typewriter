@@ -1,3 +1,9 @@
 # Release notes for `tsql`
 
 <a name="current-release"></a>
+# Version 0.1.0 (Fri, 11 Nov 2016 14:27:32 GMT)
+
+* [fbada41](https://github.com/nknapp/tsql/commit/fbada41),
+  [79a8a9b](https://github.com/nknapp/tsql/commit/79a8a9b) Documentation, examples - Nils Knappmeier
+* [67be5b0](https://github.com/nknapp/tsql/commit/67be5b0) Extended qraphql-schema and first test - Nils Knappmeier
+* [aa65ef9](https://github.com/nknapp/tsql/commit/aa65ef9) Initial check-in - Nils Knappmeier

@@ -1,7 +1,7 @@
 {
   "name": "tsql",
   "version": "0.0.0",
-  "description": "convert graphQL schema to TypeScript interfaces (server side)",
+  "description": "Easy TypeScript interfaces for your GraphQL server",
   "repository": {
     "type": "git",
     "url": "git@github.com:nknapp/tsql.git"
@@ -15,26 +15,35 @@
   "bugs": {
     "url": "https://github.com/nknapp/tsql/issues"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "MIT",
   "scripts": {
+    "compile": "tsc",
     "preformat": "standard --version || npm -g install standard",
     "format": "standard --format",
     "pretest": "standard --version || npm -g install standard",
-    "test": "mocha --recursive && standard",
+    "test": "mocha && tsc --rootDir test-tmp",
     "thought": "thought run -a",
     "prethoughtcheck": "thought --version || npm -g install thought",
     "thoughtcheck": "thought check-engines",
     "version": "thoughtful changelog -o -a && npm run thought",
     "preversion": "npm run thoughtcheck"
   },
-  "dependencies": {},
+  "dependencies": {
+    "graphql": "^0.7.2"
+  },
   "devDependencies": {
+    "@types/chai": "^3.4.34",
     "@types/graphql": "^0.7.2",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.46",
+    "chai": "^3.5.0",
     "ghooks": "^1.0.3",
     "graphql": "^0.7.2",
     "mocha": "^2.3.3",
-    "thoughtful-release": "^0.3.0"
+    "thoughtful-release": "^0.3.0",
+    "ts-node": "^1.7.0",
+    "typescript": "^2.1.1"
   },
   "standard": {
     "ignore": [
@@ -42,14 +51,12 @@
     ]
   },
   "files": [
-    "index.js",
-    "lib",
-    "bin"
+    "src"
   ],
   "config": {
     "ghooks": {
       "pre-commit": "standard"
     }
   },
-  "keywords": []
+  "keywords": ["typescript","graphql","interfaces","server"]
 }

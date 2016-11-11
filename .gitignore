@@ -14,7 +14,6 @@ vendor
 build
 dest
 dist
-src
 lib-cov
 coverage
 nbproject
@@ -55,3 +54,4 @@ npm-debug.log
 .directory
 ._*
 *.iml
+*.js.map

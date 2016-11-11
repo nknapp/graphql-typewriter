@@ -1,0 +1,18 @@
+type Query {
+    # A field description
+    field1: TypeA
+    # Another field description
+    field2: TypeB
+}
+
+# A simple type
+# Multiline description
+type TypeA {
+    name: String,
+    size: Int
+}
+
+# Another more complex type
+type TypeB {
+    nested: [TypeA]
+}

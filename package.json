@@ -59,7 +59,8 @@
     ]
   },
   "files": [
-    "src"
+    "src",
+    "bin"
   ],
   "keywords": [
     "typescript",

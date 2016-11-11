@@ -6,6 +6,7 @@
     "lib": [ "es6" ],
     "types": [ "node", "mocha" ],
     "rootDir": "src",
+    "declaration": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,

@@ -1,0 +1,32 @@
+### Usage
+
+`{{package.name}}` is assumed to be run in the root folder of a npm-project.
+It finds all .graphqls files recursively and adds a .graphqls.ts file next each file.
+
+The source GraphQL-schema `example.graphqls` that looks like
+
+{{include 'examples/graphql/schema/example.graphqls' 'graphql'}}
+
+will be converted into the following `example.graphqls.ts`:
+
+{{include 'examples/graphql/schema/example.graphqls.ts' 'ts'}}
+
+Note that all the field (non-argument) types can either be
+
+* the actual type (`Person`),
+* a promise for the actual type (`Promise&lt;Person>`),
+* a function generating the actual type (`(): Person`), or
+* a function generating a Promise (`(): Promise&lt;Person>`)  
+
+For fields with arguments, only the latter two apply.
+
+With this interface, you can write the following program (`example-usage.ts`):
+
+{{include 'examples/example-usage.ts' }}
+
+The program uses the interface to build an root-implementation that can be validate 
+by Typescript (Promise validation works with TypeScript 2.1 onwards).
+
+The output of this program is 
+
+{{exec 'node example-usage' cwd='examples'}}

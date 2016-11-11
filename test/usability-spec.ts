@@ -15,8 +15,8 @@ import path = require('path')
 import fs = require('fs')
 import {expect} from 'chai'
 import {buildSchema, graphql} from 'graphql'
-import {graphql as simpleSchema} from './schemas/simpleSchema'
-import {graphql as args} from './schemas/arguments'
+import {schema as simpleSchema} from './schemas/simpleSchema'
+import {schema as argumentSchema} from './schemas/arguments'
 
 function fixture(filename) {
     return path.join(__dirname, 'schemas', filename)
@@ -82,7 +82,7 @@ describe('The simple schema', function () {
 
 describe('The arguments schema', async function () {
     var schema = buildSchema(read(fixture('arguments.graphqls')));
-    var root: args.Query = {
+    var root: argumentSchema.Query = {
         field1: (args: {a: string, b: number}) => {
             return args.a + " " + args.b
         }

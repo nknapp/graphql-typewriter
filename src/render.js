@@ -1,6 +1,6 @@
 "use strict";
 function renderSchema(root) {
-    return `export namespace graphql {\n`
+    return `export namespace schema {\n`
         + indentBy(4, root.data.__schema.types
             .filter((type) => !introspectionTypes[type.name])
             .filter((type) => type.kind === 'OBJECT')

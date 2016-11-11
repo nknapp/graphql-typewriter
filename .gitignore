@@ -55,3 +55,7 @@ npm-debug.log
 ._*
 *.iml
 *.js.map
+
+examples/**/*.js
+examples/**/*.js.map
+examples/**/*.d.ts

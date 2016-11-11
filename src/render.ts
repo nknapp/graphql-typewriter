@@ -1,7 +1,7 @@
 import {Root, TypeDef, Field, Type, Argument} from './model'
 
 export function renderSchema(root: Root): string {
-    return `export namespace graphql {\n`
+    return `export namespace schema {\n`
         + indentBy(4,
             root.data.__schema.types
                 .filter((type) => !introspectionTypes[type.name])

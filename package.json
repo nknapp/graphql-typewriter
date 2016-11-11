@@ -1,12 +1,16 @@
 {
-  "name": "tsql",
+  "name": "gql2ts-for-server",
   "version": "0.0.0",
   "description": "Easy TypeScript interfaces for your GraphQL server",
   "repository": {
     "type": "git",
     "url": "git@github.com:nknapp/tsql.git"
   },
+  "bin": {
+    "gql2ts-for-server": "bin/gql2ts-for-server.js"
+  },
   "homepage": "https://github.com/nknapp/tsql",
+  "preferGlobal": true,
   "author": {
     "name": "Nils Knappmeier",
     "email": "npm@knappi.org",
@@ -30,10 +34,14 @@
     "preversion": "npm run thoughtcheck"
   },
   "dependencies": {
+    "commander": "^2.9.0",
+    "glob": "^7.1.1",
     "graphql": "^0.7.2"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
+    "@types/commander": "^2.3.30",
+    "@types/glob": "^5.0.30",
     "@types/graphql": "^0.7.2",
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.46",
@@ -53,10 +61,10 @@
   "files": [
     "src"
   ],
-  "config": {
-    "ghooks": {
-      "pre-commit": "standard"
-    }
-  },
-  "keywords": ["typescript","graphql","interfaces","server"]
+  "keywords": [
+    "typescript",
+    "graphql",
+    "interfaces",
+    "server"
+  ]
 }

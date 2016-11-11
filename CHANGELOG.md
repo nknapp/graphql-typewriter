@@ -1,6 +1,10 @@
 # Release notes for `tsql`
 
 <a name="current-release"></a>
+# Version 0.1.1 (Fri, 11 Nov 2016 14:29:46 GMT)
+
+* [ba8819e](https://github.com/nknapp/tsql/commit/ba8819e) Add 'bin'-folder to "files" in package.json - Nils Knappmeier
+
 # Version 0.1.0 (Fri, 11 Nov 2016 14:27:32 GMT)
 
 * [fbada41](https://github.com/nknapp/tsql/commit/fbada41),

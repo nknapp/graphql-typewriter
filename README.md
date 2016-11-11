@@ -17,7 +17,8 @@ npm install -g gql2ts-for-server
 ### Usage
 
 `gql2ts-for-server` is assumed to be run in the root folder of a npm-project.
-It finds all .graphqls files recursively and adds a .graphqls.ts file next each file.
+It finds all .graphqls files recursively and adds a .graphqls.ts file next each file
+(excluding the `node_modules`-folder).
 
 The source GraphQL-schema `example.graphqls` that looks like
 

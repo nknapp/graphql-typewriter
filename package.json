@@ -34,24 +34,25 @@
     "preversion": "npm run thoughtcheck"
   },
   "dependencies": {
-    "commander": "^2.9.0",
-    "glob": "^7.1.1",
-    "graphql": "^0.7.2"
+    "commander": "2.9.0",
+    "glob": "7.1.1",
+    "graphql": "0.7.2",
+    "m-io": "0.1.1"
   },
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/commander": "^2.3.30",
-    "@types/glob": "^5.0.30",
-    "@types/graphql": "^0.7.2",
-    "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.46",
-    "chai": "^3.5.0",
-    "ghooks": "^1.0.3",
-    "graphql": "^0.7.2",
-    "mocha": "^2.3.3",
-    "thoughtful-release": "^0.3.0",
-    "ts-node": "^1.7.0",
-    "typescript": "^2.1.1"
+    "@types/chai": "3.4.34",
+    "@types/commander": "2.3.30",
+    "@types/glob": "5.0.30",
+    "@types/graphql": "0.7.2",
+    "@types/mocha": "2.2.32",
+    "@types/node": "6.0.46",
+    "chai": "3.5.0",
+    "ghooks": "1.0.3",
+    "graphql": "0.7.2",
+    "mocha": "2.3.3",
+    "thoughtful-release": "0.3.0",
+    "ts-node": "1.7.0",
+    "typescript": "2.1.1"
   },
   "standard": {
     "ignore": [

@@ -4,7 +4,7 @@
   "description": "Easy TypeScript interfaces for your GraphQL server",
   "repository": {
     "type": "git",
-    "url": "git@github.com:nknapp/tsql.git"
+    "url": "git@github.com:nknapp/gql2ts-for-server.git"
   },
   "bin": {
     "gql2ts-for-server": "bin/gql2ts-for-server.js"

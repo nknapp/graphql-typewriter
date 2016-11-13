@@ -35,7 +35,7 @@ function renderField(field) {
         // Render property as field, with the option of being of a function-type () => ReturnValue
         result += `${field.name}: ${renderDirectTypes(typeStr)} | ${renderFunctionTypes(typeStr)}`;
     }
-    return result;
+    return `${result};`;
 }
 /**
  * Render the type on all variants (promises etc)

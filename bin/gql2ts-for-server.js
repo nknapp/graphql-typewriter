@@ -1,4 +1,4 @@
-#!/usr/bin/env/node 
+#!/usr/bin/env node 
 "use strict";
 const program = require("commander");
 const runCli_1 = require("../src/runCli");

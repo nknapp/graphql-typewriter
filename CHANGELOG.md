@@ -1,6 +1,12 @@
-# Release notes for `tsql`
+# Release notes for `gql2ts-for-server`
 
 <a name="current-release"></a>
+# Version 0.1.3 (Sun, 13 Nov 2016 23:04:27 GMT)
+
+* [b8995c8](https://github.com/nknapp/gql2ts-for-server/commit/b8995c8) Fix github repo URL in package.json - Nils Knappmeier
+
+
+
 # Version 0.1.2 (Sun, 13 Nov 2016 22:47:48 GMT)
 
 * [a135383](https://github.com/nknapp/tsql/commit/a135383) Make "gql2ts-for-server.js" executable - Nils Knappmeier

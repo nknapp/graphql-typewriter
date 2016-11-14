@@ -34,6 +34,9 @@ interfaces that can be used to implement a graphql-root for this schema.
 It finds all .graphqls files recursively and adds a .graphqls.ts file next each file
 (excluding the `node_modules`-folder).
 
+`gql2ts-for-server --out filename` will find all .graphqls recursively and puts all the ts interface in given file path.
+
+
 The source GraphQL-schema `example.graphqls` that looks like
 
 ```graphql

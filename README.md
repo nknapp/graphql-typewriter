@@ -16,6 +16,20 @@ npm install -g gql2ts-for-server
 
 ### Usage
 
+```
+Usage: gql2ts-for-server [options]
+
+  Convert all .graphqls schema-files in the current directory tree into typescript
+interfaces that can be used to implement a graphql-root for this schema.
+
+  Options:
+
+    -h, --help             output usage information
+    -V, --version          output the version number
+    -x, --exclude <dirs>   a list of directories to exclude
+    --dont-save-same-file  do not save a file if the contents has not changed. This read each target file prior to loading
+```
+
 `gql2ts-for-server` is assumed to be run in the root folder of a npm-project.
 It finds all .graphqls files recursively and adds a .graphqls.ts file next each file
 (excluding the `node_modules`-folder).

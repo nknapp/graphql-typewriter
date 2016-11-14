@@ -62,7 +62,4 @@ function runCli(cliArgs) {
     });
 }
 exports.runCli = runCli;
-class Cli {
-}
-exports.Cli = Cli;
 //# sourceMappingURL=runCli.js.map

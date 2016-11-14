@@ -64,8 +64,3 @@ export async function runCli(cliArgs: CliArgs):Promise<any> {
 
     console.log('Done');
 }
-
-export class Cli { 
-    
-    public static cli
-}

@@ -59,4 +59,4 @@ npm-debug.log
 examples/**/*.js
 examples/**/*.js.map
 examples/**/*.d.ts
-.idea/
+.idea

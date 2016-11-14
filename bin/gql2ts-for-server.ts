@@ -5,7 +5,7 @@ import {runCli} from '../src/runCli'
 
 function stringArray(arg: any, message: string): string[] {
     if (!arg) {
-        throw new Error(message +": Value not set")
+        throw new Error(message +": Value not set") 
     }
     if (arg instanceof Array && arg.length === 0 || typeof arg[0] === 'string') {
         return arg

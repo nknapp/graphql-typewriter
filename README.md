@@ -1,8 +1,8 @@
 # gql2ts-for-server 
 
 [![NPM version](https://badge.fury.io/js/gql2ts-for-server.svg)](http://badge.fury.io/js/gql2ts-for-server)
-[![Travis Build Status](https://travis-ci.org/nknapp/tsql.svg?branch=master)](https://travis-ci.org/nknapp/tsql)
-[![Coverage Status](https://img.shields.io/coveralls/nknapp/tsql.svg)](https://coveralls.io/r/nknapp/tsql)
+[![Travis Build Status](https://travis-ci.org/nknapp/gql2ts-for-server.svg?branch=master)](https://travis-ci.org/nknapp/gql2ts-for-server)
+[![Coverage Status](https://img.shields.io/coveralls/nknapp/gql2ts-for-server.svg)](https://coveralls.io/r/nknapp/gql2ts-for-server)
 
 
 > Easy TypeScript interfaces for your GraphQL server

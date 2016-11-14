@@ -3,11 +3,11 @@ export namespace schema {
         /**
          * A field description
          */
-        field1: TypeA | Promise<TypeA> | { (): TypeA } | { (): Promise<TypeA> }
+        field1: TypeA | Promise<TypeA> | { (): TypeA } | { (): Promise<TypeA> };
         /**
          * Another field description
          */
-        field2: TypeB | Promise<TypeB> | { (): TypeB } | { (): Promise<TypeB> }
+        field2: TypeB | Promise<TypeB> | { (): TypeB } | { (): Promise<TypeB> };
     }
 
     /**
@@ -15,14 +15,14 @@ export namespace schema {
      * Multiline description
      */
     export interface TypeA {
-        name: string | Promise<string> | { (): string } | { (): Promise<string> }
-        size: number | Promise<number> | { (): number } | { (): Promise<number> }
+        name: string | Promise<string> | { (): string } | { (): Promise<string> };
+        size: number | Promise<number> | { (): number } | { (): Promise<number> };
     }
 
     /**
      * Another more complex type
      */
     export interface TypeB {
-        nested: TypeA[] | Promise<TypeA[]> | { (): TypeA[] } | { (): Promise<TypeA[]> }
+        nested: TypeA[] | Promise<TypeA[]> | { (): TypeA[] } | { (): Promise<TypeA[]> };
     }
 }

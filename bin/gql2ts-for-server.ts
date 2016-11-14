@@ -5,7 +5,7 @@ import {runCli} from '../src/runCli'
 
 function stringArray(arg: any, message: string): string[] {
     if (!arg) {
-        throw new Error(message +": Value not set")
+        throw new Error(message +": Value not set") 
     }
     if (arg instanceof Array && arg.length === 0 || typeof arg[0] === 'string') {
         return arg
@@ -21,11 +21,12 @@ program.version(require('../package.json').version)
         return last.concat([current])
     }, ['node_modules'])
     .option('--dont-save-same-file', 'do not save a file if the contents has not changed. This read each target file prior to loading')
-    .parse(process.argv)
+    .option('--out [value]', 'concat all schema files into one gathering the types in one single Ts file')
+    .parse(process.argv);
 
 
 runCli({
     exclude: stringArray(program['exclude'],"Verification of 'exclude'-parameter"),
-    dontSaveSameFile: Boolean(program['dontSaveSameFile'])
-})
-.then(() => console.log("done"))
+    dontSaveSameFile: Boolean(program['dontSaveSameFile']),
+    out: program['out']
+});

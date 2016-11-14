@@ -1,8 +1,8 @@
 # gql2ts-for-server 
 
 [![NPM version](https://badge.fury.io/js/gql2ts-for-server.svg)](http://badge.fury.io/js/gql2ts-for-server)
-[![Travis Build Status](https://travis-ci.org/nknapp/tsql.svg?branch=master)](https://travis-ci.org/nknapp/tsql)
-[![Coverage Status](https://img.shields.io/coveralls/nknapp/tsql.svg)](https://coveralls.io/r/nknapp/tsql)
+[![Travis Build Status](https://travis-ci.org/nknapp/gql2ts-for-server.svg?branch=master)](https://travis-ci.org/nknapp/gql2ts-for-server)
+[![Coverage Status](https://img.shields.io/coveralls/nknapp/gql2ts-for-server.svg)](https://coveralls.io/r/nknapp/gql2ts-for-server)
 
 
 > Easy TypeScript interfaces for your GraphQL server
@@ -19,6 +19,9 @@ npm install -g gql2ts-for-server
 `gql2ts-for-server` is assumed to be run in the root folder of a npm-project.
 It finds all .graphqls files recursively and adds a .graphqls.ts file next each file
 (excluding the `node_modules`-folder).
+
+`gql2ts-for-server --out filename` will find all .graphqls recursively and puts all the ts interface in given file path.
+
 
 The source GraphQL-schema `example.graphqls` that looks like
 

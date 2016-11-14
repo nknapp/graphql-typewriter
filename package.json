@@ -1,15 +1,15 @@
 {
   "name": "gql2ts-for-server",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Easy TypeScript interfaces for your GraphQL server",
   "repository": {
     "type": "git",
-    "url": "git@github.com:nknapp/tsql.git"
+    "url": "git@github.com:nknapp/gql2ts-for-server.git"
   },
   "bin": {
     "gql2ts-for-server": "bin/gql2ts-for-server.js"
   },
-  "homepage": "https://github.com/nknapp/tsql",
+  "homepage": "https://github.com/nknapp/gql2ts-for-server",
   "preferGlobal": true,
   "author": {
     "name": "Nils Knappmeier",
@@ -17,16 +17,13 @@
     "url": "https://github.com/nknapp"
   },
   "bugs": {
-    "url": "https://github.com/nknapp/tsql/issues"
+    "url": "https://github.com/nknapp/gql2ts-for-server/issues"
   },
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
     "compile": "tsc",
-    "preformat": "standard --version || npm -g install standard",
-    "format": "standard --format",
-    "pretest": "standard --version || npm -g install standard",
-    "test": "mocha && tsc --rootDir test-tmp",
+    "test": "mocha",
     "thought": "thought run -a",
     "prethoughtcheck": "thought --version || npm -g install thought",
     "thoughtcheck": "thought check-engines",
@@ -34,31 +31,25 @@
     "preversion": "npm run thoughtcheck"
   },
   "dependencies": {
-    "commander": "2.9.0",
-    "glob": "7.1.1",
-    "graphql": "0.8.1",
-    "m-io": "0.1.1"
+    "commander": "^2.9.0",
+    "glob": "^7.1.1",
+    "graphql": "^0.7.2",
+    "m-io": "^0.1.1"
   },
   "devDependencies": {
-    "@types/chai": "3.4.34",
-    "@types/commander": "2.3.30",
-    "@types/glob": "5.0.30",
-    "@types/graphql": "0.7.2",
-    "@types/mocha": "2.2.32",
-    "@types/node": "6.0.46",
-    "chai": "3.5.0",
-    "ghooks": "1.3.2",
-    "mocha": "3.1.2",
-    "standard": "8.5.0",
-    "thought": "0.8.1",
-    "thoughtful-release": "0.3.0",
-    "ts-node": "1.7.0",
-    "typescript": "2.1.1"
-  },
-  "standard": {
-    "ignore": [
-      "test/fixtures/**"
-    ]
+    "@types/chai": "^3.4.34",
+    "@types/commander": "^2.3.30",
+    "@types/glob": "^5.0.30",
+    "@types/graphql": "^0.7.2",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.46",
+    "chai": "^3.5.0",
+    "ghooks": "^1.0.3",
+    "graphql": "^0.7.2",
+    "mocha": "^2.3.3",
+    "thoughtful-release": "^0.3.0",
+    "ts-node": "^1.7.0",
+    "typescript": "^2.1.1"
   },
   "files": [
     "src",

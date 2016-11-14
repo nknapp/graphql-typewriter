@@ -8,6 +8,8 @@ before_script:
 script:
   - npm install istanbul
   - istanbul cover ./node_modules/.bin/_mocha --report lcovonly
+  # Test that running the executable itself does not create an error
+  - bin/gql2ts-for-server.js
 after_script:
   - npm install coveralls
   - cat ./coverage/lcov.info | coveralls

@@ -1,5 +1,5 @@
 /*!
- * tsql <https://github.com/nknapp/tsql>
+ * gql2ts-for-server <https://github.com/nknapp/gql2ts-for-server>
  *
  * Copyright (c) 2016 Nils Knappmeier.
  * Released under the MIT license.
@@ -30,7 +30,7 @@ function read(file) {
 
 
 
-describe('tsql:', function () {
+describe('gql2ts-for-server:', function () {
     // Automatic generation of tests from the testcases-directory
     fs.readdirSync(path.join(__dirname, 'schemas'))
         .filter((file) => file.match(/\.graphqls$/))

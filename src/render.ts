@@ -56,7 +56,8 @@ function renderFunctionTypes(typeStr: string) {
 
 var scalars = {
     'String': 'string',
-    'Int': 'number'
+    'Int': 'number',
+    'Boolean': 'boolean'
 }
 
 function renderType(type) {

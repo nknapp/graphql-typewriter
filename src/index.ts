@@ -9,7 +9,7 @@ import path = require('path')
 import {graphql, introspectionQuery, buildSchema} from 'graphql'
 import fs = require('fs')
 import stream = require('stream')
-import {renderSchema} from './render'
+import {Renderer} from './render'
 
 /**
  * The converter class
@@ -23,7 +23,8 @@ export class Converter {
      */
     public async convert(graphqls: string): Promise<string> {
         var schema: any = buildSchema(graphqls)
+        var renderer = new Renderer({})
         var introSpection: any = await graphql(schema, introspectionQuery, {})
-        return renderSchema(introSpection)
+        return renderer.render(introSpection)
     }
 }

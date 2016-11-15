@@ -16,14 +16,15 @@ export const OMIT_NEXT_NEWLINE = {
  * @param array
  * @param args
  */
-export function source(array, ...args) {
+export function source(array, a1, a2?, a3?, a4?, a5?, a6? /** dynamic args **/) {
+    var args = Array.prototype.slice.call(arguments, 1)
     var result = array[0]
     for (var i = 0; i < args.length; i++) {
         // Determine indent
         var indent = result.length - result.lastIndexOf('\n') - 1
         switch (args[i]) {
             case OMIT_NEXT_NEWLINE:
-                result += array[i + 1].replace(/^ *\n/,'')
+                result += array[i + 1].replace(/^ *\n/, '')
                 break
             default:
                 result += String(args[i]).replace(/\n/g, '\n' + spaces.slice(0, indent))
@@ -32,7 +33,7 @@ export function source(array, ...args) {
     }
 
     result = result.replace(/(^\n|\n$)/g, '')
-    
+
     var templateTag = array[0].match(/\s*\n([ \t])*##+ TEMPLATE ##+\s*$/m);
     if (templateTag) {
         // Determine de-indent

@@ -28,7 +28,8 @@
     "prethoughtcheck": "thought --version || npm -g install thought",
     "thoughtcheck": "thought check-engines",
     "version": "thoughtful changelog -o -a && npm run thought",
-    "preversion": "npm run thoughtcheck"
+    "preversion": "npm run thoughtcheck",
+    "prepublish": "tsc"
   },
   "dependencies": {
     "commander": "^2.9.0",

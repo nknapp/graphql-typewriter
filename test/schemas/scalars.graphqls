@@ -1,5 +1,7 @@
 type Query {
-    stringField: String,
-    booleanField: Boolean,
+    stringField: String
+    booleanField: Boolean
     intField: Int
+    floatField: Float
+    idField: ID
 }

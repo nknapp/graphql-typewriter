@@ -1,0 +1,13 @@
+type A {
+  name: String!
+}
+
+type Query {
+    requiredStringField: String!
+    optionalStringField: String
+    requiredIntField: Int!
+    requiredObjectField: A!
+
+    requiredList: [String]!
+    requiredListOfRequired: [String!]!
+}

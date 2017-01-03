@@ -119,6 +119,8 @@ ${this.renderMember(field)}
                 return type.name
             case 'LIST':
                 return `${this.renderType(type.ofType)}[]`
+            case 'NON_NULL':
+                return this.renderType(type.ofType)
         }
     }
 

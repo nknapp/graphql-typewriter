@@ -8,6 +8,8 @@ type Query {
     requiredIntField: Int!
     requiredObjectField: A!
 
-    requiredList: [String]!
+    requiredListOfOptionals: [String]!
+    optionalListOfOptionals: [String]
     requiredListOfRequired: [String!]!
+    optionalListOfRequired: [String!]
 }

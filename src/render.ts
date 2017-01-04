@@ -147,7 +147,9 @@ ${this.renderMember(field)}
 var scalars = {
     'String': 'string',
     'Int': 'number',
-    'Boolean': 'boolean'
+    'Float': 'number',
+    'Boolean': 'boolean',
+    'ID': 'string'
 }
 
 /**

@@ -1,5 +1,6 @@
 /* tslint:disable */
 export namespace schema {
+
     export interface Query {
         /**
          * A field description

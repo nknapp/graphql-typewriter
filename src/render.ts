@@ -80,10 +80,10 @@ ${this.renderMember(field)}
      * @returns {string}
      */
     renderMember(field: Field) {
-        var typeStr = this.renderType(field.type);
+        var typeStr = this.renderType(field.type, false);
         if (field.args && field.args.length > 0) {
             // Render property with arguments as functions
-            return `${field.name}(args: {${this.renderArgumentType(field.args)}}): ${this.renderDirectTypes(typeStr)}`
+            return `${field.name}(args: {${this.renderArgumentType(field.args)}}): ${this.renderDirectTypes(typeStr, false)}`
         } else {
             // Render property as field, with the option of being of a function-type () => ReturnValue
             const optional = field.type.kind !== 'NON_NULL'
@@ -96,7 +96,7 @@ ${this.renderMember(field)}
      * Render the type of a field on all variants (promises, methods etc)
      * @param type
      */
-    renderDirectTypes(typeStr: string, optional: boolean = false) {
+    renderDirectTypes(typeStr: string, optional: boolean) {
         if (optional) {
             return `${typeStr} | Promise<${typeStr} | undefined>`
         } else {
@@ -109,7 +109,7 @@ ${this.renderMember(field)}
      * @param typeStr
      * @returns {string}
      */
-    renderFunctionTypes(typeStr: string, optional: boolean = false) {
+    renderFunctionTypes(typeStr: string, optional: boolean) {
         if (optional) {
             return `{ (): ${typeStr} | undefined } | { (): Promise<${typeStr} | undefined> }`
         } else {
@@ -121,7 +121,7 @@ ${this.renderMember(field)}
      * Render a single return type (or field type)
      * This function creates the base type that is then used as generic to a promise
      */
-    renderType(type, optional = false) {
+    renderType(type, optional: boolean) {
         function wrap(arg) {
             return optional ? `(${arg} | undefined)` : arg
         }
@@ -153,7 +153,7 @@ ${this.renderMember(field)}
      */
     renderArgumentType(args: Argument[]) {
         return args.map((arg) => {
-            return `${arg.name}: ${this.renderType(arg.type)}`
+            return `${arg.name}: ${this.renderType(arg.type, false)}`
         }).join(', ')
     }
 

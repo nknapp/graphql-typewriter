@@ -12,14 +12,14 @@ export interface Root {
 
 export interface TypeDef {
     name: string
-    kind: "SCALAR" | "OBJECT" | "NON_NULL" | "LIST"
+    kind: "SCALAR" | "OBJECT" | "NON_NULL" | "LIST" | "ENUM"
     description: string
-    fields: Field[]
+    fields?: Field[]
+    enumValues?: EnumValue[]
 
     // Not yet considered
     inputFields: any
     interfaces: any[]
-    enumValues: any
     possibleTypes: any
 }
 
@@ -40,7 +40,14 @@ export class Argument {
 }
 
 export class Type {
-    kind: "SCALAR" | "OBJECT" | "NON_NULL" | "LIST"
+    kind: "SCALAR" | "OBJECT" | "NON_NULL" | "LIST" | "ENUM"
     name: string
     ofType: Type
+}
+
+export class EnumValue {
+    name: string
+    description: string
+    deprecated: boolean
+    deprecationReason?: string
 }

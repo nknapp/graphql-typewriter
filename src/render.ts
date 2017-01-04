@@ -1,4 +1,4 @@
-import {Root, TypeDef, Field, Type, Argument} from './model'
+import {Root, TypeDef, Field, Type, Argument, EnumValue} from './model'
 import {source, OMIT_NEXT_NEWLINE} from './renderTag'
 
 export interface Options {
@@ -29,6 +29,7 @@ export class Renderer {
         const result = source`
 /* tslint:disable */
 export namespace schema {
+    ${this.renderEnums(root.data.__schema.types)}
     ${this.renderTypes(root.data.__schema.types)}
 }
 
@@ -131,6 +132,8 @@ ${this.renderMember(field)}
                 return wrap(scalars[type.name])
             case 'OBJECT':
                 return wrap(type.name)
+            case 'ENUM':
+                return wrap(type.name)
             case 'LIST':
                 return wrap(`${this.renderType(type.ofType, true)}[]`)
             case 'NON_NULL':
@@ -158,6 +161,55 @@ ${this.renderMember(field)}
         }).join(', ')
     }
 
+    /**
+     * Render a list of enums.
+     * @param types
+     * @returns
+     */
+    renderEnums(types: TypeDef[]) {
+        return types
+            .filter((type) => !this.introspectionTypes[type.name])
+            .filter((type) => type.kind === 'ENUM')
+            .map((type) => this.renderEnum(type))
+            .join('\n')
+    }
+
+    /**
+     * Render an Enum.
+     * @param type
+     * @returns
+     */
+    renderEnum(type: TypeDef): string {
+        return source`
+${this.renderComment(type.description)}
+export type ${type.name} = ${type.enumValues.map((value) => `'${value.name}'`).join(' | ')}
+export const ${type.name}: {
+    ${type.enumValues.map((value) => this.renderEnumValueType(value)).join('\n')}
+} = {
+    ${type.enumValues.map((value) => this.renderEnumValue(value)).join('\n')}
+}
+
+`
+    }
+
+    /**
+     * Renders a type definition for an enum value.
+     */
+    renderEnumValueType(value: EnumValue): string {
+        return source`
+${value.name}: '${value.name}',
+`
+    }
+
+    /**
+     * Renders a the definition of an enum value.
+     */
+    renderEnumValue(value: EnumValue): string {
+        return source`
+${this.renderComment(value.description)}
+${value.name}: '${value.name}',
+`
+    }
 }
 
 var scalars = {

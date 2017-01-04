@@ -1,0 +1,11 @@
+enum STATE {
+  OPEN
+  CLOSED
+  # permanently deleted
+  DELETED
+}
+
+type Query {
+  state: STATE!
+  optionalState: STATE
+}

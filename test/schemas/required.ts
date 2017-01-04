@@ -1,5 +1,6 @@
 /* tslint:disable */
 export namespace schema {
+
     export interface Query {
         requiredStringField: string | Promise<string> | { (): string } | { (): Promise<string> }
         optionalStringField?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }

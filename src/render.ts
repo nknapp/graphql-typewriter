@@ -30,6 +30,7 @@ export class Renderer {
 /* tslint:disable */
 export namespace schema {
     ${this.renderEnums(root.data.__schema.types)}
+    ${this.renderUnions(root.data.__schema.types)}
     ${this.renderTypes(root.data.__schema.types)}
 }
 
@@ -131,8 +132,8 @@ ${this.renderMember(field)}
             case 'SCALAR':
                 return wrap(scalars[type.name])
             case 'OBJECT':
-                return wrap(type.name)
             case 'ENUM':
+            case 'UNION':
                 return wrap(type.name)
             case 'LIST':
                 return wrap(`${this.renderType(type.ofType, true)}[]`)
@@ -208,6 +209,33 @@ ${value.name}: '${value.name}',
         return source`
 ${this.renderComment(value.description)}
 ${value.name}: '${value.name}',
+`
+    }
+
+    /**
+     * Render a list of unions.
+     * @param types
+     * @returns
+     */
+    renderUnions(types: TypeDef[]) {
+        return types
+            .filter((type) => !this.introspectionTypes[type.name])
+            .filter((type) => type.kind === 'UNION')
+            .map((type) => this.renderUnion(type))
+            .join('\n')
+    }
+
+    /**
+     * Render a union.
+     * @param type
+     * @returns
+     */
+    renderUnion(type: TypeDef): string {
+        const unionValues = type.possibleTypes.map(type => type.name).join(' | ')
+        return source`
+${this.renderComment(type.description)}
+export type ${type.name} = ${unionValues}
+
 `
     }
 }

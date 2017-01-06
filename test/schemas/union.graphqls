@@ -1,0 +1,15 @@
+type A {
+  aName: String
+}
+type B {
+  bName: String
+}
+
+union Single = A
+# A or B
+union AOrB = A | B
+
+type Query {
+  single: Single
+  aOrB: AOrB
+}

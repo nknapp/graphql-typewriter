@@ -1,3 +1,4 @@
+/* tslint:disable */
 export namespace schema {
     export interface Query {
         requiredStringField: string | Promise<string> | { (): string } | { (): Promise<string> }

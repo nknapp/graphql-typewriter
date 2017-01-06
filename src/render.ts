@@ -27,6 +27,7 @@ export class Renderer {
      */
     render(root: Root): string {
         const result = source`
+/* tslint:disable */
 export namespace schema {
     ${this.renderTypes(root.data.__schema.types)}
 }

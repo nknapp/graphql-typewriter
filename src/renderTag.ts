@@ -16,7 +16,8 @@ export const OMIT_NEXT_NEWLINE = {
  * @param array the input array
  * @param args
  */
-export function source(array, ...args /* dynamic args */) {
+export function source(array /* dynamic args */) {
+    const args = Array.prototype.slice.call(arguments, 1)
     let result = array[0]
     for (let i = 0; i < args.length; i++) {
         // Determine indent

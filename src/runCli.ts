@@ -1,7 +1,7 @@
 import glob = require('glob')
-import {Converter}from './index'
-import fs = require('fs')
-var mfs = require('m-io/fs')
+import {Converter} from './index'
+// Import via ES 5, node-style 'require', because there are no typings for this file (yet)
+const mfs = require('m-io/fs')
 
 export interface CliArgs {
     /**
@@ -11,29 +11,29 @@ export interface CliArgs {
     dontSaveSameFile: boolean
 }
 
-export async function runCli(cliArgs: CliArgs):Promise<any> {
+export async function runCli(cliArgs: CliArgs): Promise<any> {
 
     // Remove default value from 'exclude', if explicit values have been provided
     if (cliArgs.exclude.length > 1) {
-        cliArgs.exclude.shift();
+        cliArgs.exclude.shift()
     }
 
-    var files = glob.sync('**/*.graphqls', {
+    const files = glob.sync('**/*.graphqls', {
         ignore: cliArgs.exclude
-    });
+    })
 
-    var converter = new Converter()
+    const converter = new Converter()
 
-    var promises = files.map(async (sourceFile) => {
-        var targetFile = sourceFile + '.ts'
+    const promises = files.map(async (sourceFile) => {
+        const targetFile = sourceFile + '.ts'
         try {
-            var source = await mfs.read(sourceFile, {encoding: 'utf-8'})
-            var ts = await converter.convert(source)
+            const source = await mfs.read(sourceFile, {encoding: 'utf-8'})
+            const ts = await converter.convert(source)
             if (cliArgs.dontSaveSameFile) {
-                var oldContents = await mfs.read(targetFile)
+                const oldContents = await mfs.read(targetFile)
                 if (oldContents === ts) {
                     console.log(`${sourceFile} -> ${targetFile}`, 'success')
-                    return 
+                    return
                 }
             }
             await mfs.write(targetFile, ts)

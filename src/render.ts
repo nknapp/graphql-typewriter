@@ -1,4 +1,4 @@
-import {Root, TypeDef, Field, Type, Argument, EnumValue} from './model'
+import {Root, TypeDef, Field, Argument, EnumValue} from './model'
 import {source, OMIT_NEXT_NEWLINE} from './renderTag'
 
 export interface Options {
@@ -12,9 +12,9 @@ export class Renderer {
      * Types that are not created as interface, because they are part of the introspection
      */
     private introspectionTypes: {[key: string]: boolean} = setOf([
-        "__Schema", "__Type", "__TypeKind", "__Field", "__InputValue", "__EnumValue",
-        "__Directive", "__DirectiveLocation"
-    ]);
+        '__Schema', '__Type', '__TypeKind', '__Field', '__InputValue', '__EnumValue',
+        '__Directive', '__DirectiveLocation'
+    ])
 
     constructor(options: Options) {
         this.options = options
@@ -33,7 +33,6 @@ export namespace schema {
     ${this.renderUnions(root.data.__schema.types)}
     ${this.renderTypes(root.data.__schema.types)}
 }
-
 `
         return result.replace(/^\s+$/mg, '')
     }
@@ -83,15 +82,18 @@ ${this.renderMember(field)}
      * @returns {string}
      */
     renderMember(field: Field) {
-        var typeStr = this.renderType(field.type, false);
+        const typeStr = this.renderType(field.type, false)
         if (field.args && field.args.length > 0) {
             // Render property with arguments as functions
-            return `${field.name}(args: {${this.renderArgumentType(field.args)}}): ${this.renderDirectTypes(typeStr, false)}`
+            const argType = this.renderArgumentType(field.args)
+            return `${field.name}(args: {${argType}}): ${this.renderDirectTypes(typeStr, false)}`
         } else {
             // Render property as field, with the option of being of a function-type () => ReturnValue
             const optional = field.type.kind !== 'NON_NULL'
             const name = optional ? field.name + '?' : field.name
-            return `${name}: ${this.renderDirectTypes(typeStr, optional)} | ${this.renderFunctionTypes(typeStr, optional)}`
+            const directTypes = this.renderDirectTypes(typeStr, optional)
+            const functionTypes = this.renderFunctionTypes(typeStr, optional)
+            return `${name}: ${directTypes} | ${functionTypes}`
         }
     }
 
@@ -128,6 +130,7 @@ ${this.renderMember(field)}
         function wrap(arg) {
             return optional ? `(${arg} | undefined)` : arg
         }
+
         switch (type.kind) {
             case 'SCALAR':
                 return wrap(scalars[type.name])
@@ -150,7 +153,7 @@ ${this.renderMember(field)}
             // Parsed by the `source` tag-function to remove the next newline
             return OMIT_NEXT_NEWLINE
         }
-        return `/**\n * ` + description.split('\n').join(`\n * `) + `\n */`;
+        return `/**\n * ` + description.split('\n').join(`\n * `) + `\n */`
     }
 
     /**
@@ -240,7 +243,7 @@ export type ${type.name} = ${unionValues}
     }
 }
 
-var scalars = {
+const scalars = {
     'String': 'string',
     'Int': 'number',
     'Float': 'number',
@@ -254,8 +257,10 @@ var scalars = {
  * @returns {{}}
  */
 function setOf(array: string[]): {[key: string]: boolean} {
-    return array.reduce((set, current): {[key: string]: boolean} => {
-        set[current] = true;
-        return set;
-    }, {})
+    return array.reduce(
+        (set, current): {[key: string]: boolean} => {
+            set[current] = true
+            return set
+        },
+        {})
 }

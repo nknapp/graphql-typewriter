@@ -1,6 +1,6 @@
-import {graphql, buildSchema}  from 'graphql'
+import {graphql, buildSchema} from 'graphql'
 import {schema} from './graphql/schema/example.graphqls'
-import fs = require('fs')
+import * as fs from 'fs'
 
 // Implement the generated interface
 class Root implements schema.Query {
@@ -28,7 +28,7 @@ class Person implements schema.Person {
 
 // Run a query
 graphql(
-    buildSchema(fs.readFileSync('graphql/schema/example.graphqls', { encoding: 'utf-8' })),
+    buildSchema(fs.readFileSync('graphql/schema/example.graphqls', {encoding: 'utf-8'})),
     '{ person(name:"Joye") { name age friends { name age } }}',
     new Root()
-).then((result) => console.log(JSON.stringify(result,null,2)))
+).then((result) => console.log(JSON.stringify(result, null, 2)))

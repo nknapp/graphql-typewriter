@@ -23,13 +23,14 @@
   "license": "MIT",
   "scripts": {
     "compile": "tsc",
-    "test": "mocha",
+    "tslint": "tslint -e '**/*.d.ts' -e 'node_modules/**' '**/*.ts'",
+    "test": "mocha && npm run tslint",
     "thought": "thought run -a",
     "prethoughtcheck": "thought --version || npm -g install thought",
     "thoughtcheck": "thought check-engines",
     "version": "thoughtful changelog -o -a && npm run thought",
     "preversion": "npm run thoughtcheck",
-    "prepublish": "tsc"
+    "prepublish": "tsc && npm run test"
   },
   "dependencies": {
     "commander": "^2.9.0",
@@ -50,6 +51,7 @@
     "mocha": "^2.3.3",
     "thoughtful-release": "^0.3.0",
     "ts-node": "^1.7.0",
+    "tslint-config-standard": "^2.0.0",
     "typescript": "^2.1.1"
   },
   "files": [

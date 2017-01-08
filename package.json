@@ -16,6 +16,11 @@
     "email": "npm@knappi.org",
     "url": "https://github.com/nknapp"
   },
+  "contributors": {
+    "name": "Mario Siegenthaler",
+    "email": "mario.siegenthaler@linkyard.ch",
+    "url": "https://github.com/msiegenthaler"
+  },
   "bugs": {
     "url": "https://github.com/nknapp/gql2ts-for-server/issues"
   },

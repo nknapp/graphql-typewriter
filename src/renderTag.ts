@@ -1,4 +1,4 @@
-var spaces = '                                                                                       '
+const spaces = '                                                                                       '
 
 /**
  * Token that removes whitespace following the substition up to and including the next newline character
@@ -13,15 +13,21 @@ export const OMIT_NEXT_NEWLINE = {
  * Removes the first and last character, if it is a newline
  * and expands the current indent on multiline substitions
  * @see http://exploringjs.com/es6/ch_template-literals.html
- * @param array
- * @param args
+ * @param array the input array
+ * @param a1 string substitution
+ * @param a2 string substitution
+ * @param a2 string substitution
+ * @param a3 string substitution
+ * @param a4 string substitution
+ * @param a5 string substitution
+ * @param a6 string substitution
  */
-export function source(array, a1, a2?, a3?, a4?, a5?, a6? /** dynamic args **/) {
-    var args = Array.prototype.slice.call(arguments, 1)
-    var result = array[0]
-    for (var i = 0; i < args.length; i++) {
+export function source(array, a1, a2?, a3?, a4?, a5?, a6? /* dynamic args */) {
+    const args = Array.prototype.slice.call(arguments, 1)
+    let result = array[0]
+    for (let i = 0; i < args.length; i++) {
         // Determine indent
-        var indent = result.length - result.lastIndexOf('\n') - 1
+        const indent = result.length - result.lastIndexOf('\n') - 1
         switch (args[i]) {
             case OMIT_NEXT_NEWLINE:
                 result += array[i + 1].replace(/^ *\n/, '')
@@ -34,15 +40,15 @@ export function source(array, a1, a2?, a3?, a4?, a5?, a6? /** dynamic args **/) 
 
     result = result.replace(/(^\n|\n$)/g, '')
 
-    var templateTag = array[0].match(/\s*\n([ \t])*##+ TEMPLATE ##+\s*$/m);
+    const templateTag = array[0].match(/\s*\n([ \t])*##+ TEMPLATE ##+\s*$/m)
     if (templateTag) {
         // Determine de-indent
-        var deindent = templateTag[1].length - templateTag[1].lastIndexOf('\n') - 1
+        const deindent = templateTag[1].length - templateTag[1].lastIndexOf('\n') - 1
         return result
             .substr
             .split('\n')
             .map((line) => line.substr(deindent))
     }
 
-    return result;
+    return result
 }

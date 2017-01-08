@@ -6,7 +6,7 @@ export interface Root {
     }
 }
 
-export type Kind = "SCALAR" | "OBJECT" | "NON_NULL" | "LIST" | "ENUM" | "UNION"
+export type Kind = 'SCALAR' | 'OBJECT' | 'NON_NULL' | 'LIST' | 'ENUM' | 'UNION'
 
 /**
  * Model definition of the introspection result

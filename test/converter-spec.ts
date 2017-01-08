@@ -15,7 +15,7 @@ import path = require('path')
 import fs = require('fs')
 import {expect} from 'chai'
 
-var converter = new Converter()
+const converter = new Converter()
 
 function fixture(filename) {
     return path.join(__dirname, 'schemas', filename)
@@ -25,22 +25,20 @@ function store(file, code) {
 }
 
 function read(file) {
-    return fs.readFileSync(file, {encoding: 'utf-8'})
+    return fs.readFileSync(file, {encoding: 'utf-8'}).trim()
 }
-
-
 
 describe('gql2ts-for-server:', function () {
     // Automatic generation of tests from the testcases-directory
     fs.readdirSync(path.join(__dirname, 'schemas'))
         .filter((file) => file.match(/\.graphqls$/))
         .forEach((file) => {
-            
-            it(`should handle ${file} correctly`, async function () {
-                var source = fixture(file)
-                var target = source.replace(/\.graphqls$/,'.ts');
 
-                var result = await converter.convert(read(source));
+            it(`should handle ${file} correctly`, async function () {
+                const source = fixture(file)
+                const target = source.replace(/\.graphqls$/,'.ts')
+
+                const result = await converter.convert(read(source))
                 // If the target file does not exist yet, we write it
                 // with a short disclaimer, so that the test does not pass
                 if (!fs.existsSync(target)) {

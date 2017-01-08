@@ -1,6 +1,6 @@
 {
   "name": "gql2ts-for-server",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Easy TypeScript interfaces for your GraphQL server",
   "repository": {
     "type": "git",

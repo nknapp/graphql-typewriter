@@ -8,7 +8,6 @@
                 "SwitchCase": 1
             }
         ],
-        "prefer-const": true,
-        "no-unused-variable": true
+        "prefer-const": true
     }
 }

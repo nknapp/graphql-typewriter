@@ -22,7 +22,7 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "compile": "tsc",
+    "compile": "tsc --noUnusedLocals",
     "tslint": "tslint -e '**/*.d.ts' -e 'node_modules/**' '**/*.ts'",
     "test": "mocha && npm run tslint",
     "thought": "thought run -a",
@@ -30,7 +30,7 @@
     "thoughtcheck": "thought check-engines",
     "version": "thoughtful changelog -o -a && npm run thought",
     "preversion": "npm run thoughtcheck",
-    "prepublish": "tsc && npm run test"
+    "prepublish": "npm run compile && npm run test"
   },
   "dependencies": {
     "commander": "^2.9.0",

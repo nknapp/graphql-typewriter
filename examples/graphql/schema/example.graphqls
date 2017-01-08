@@ -1,16 +1,16 @@
 
-# The base query 
+# The base query
 type Query {
-    # Retrieve a person by name 
+    # Retrieve a person by name
     person(name:String): Person
 }
 
 # A type describing a person
 type Person {
     # The persons name
-    name: String
+    name: String!
     # The persons age in years
-    age: Int
+    age: Int!
     # Friendship relations to other persons
-    friends: [Person]
-} 
+    friends: [Person!]
+}

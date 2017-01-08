@@ -1,10 +1,12 @@
+/* tslint:disable */
 export namespace schema {
+
     /**
-     * The base query 
+     * The base query
      */
     export interface Query {
         /**
-         * Retrieve a person by name 
+         * Retrieve a person by name
          */
         person(args: {name: string}): Person | Promise<Person>
     }
@@ -24,6 +26,6 @@ export namespace schema {
         /**
          * Friendship relations to other persons
          */
-        friends: Person[] | Promise<Person[]> | { (): Person[] } | { (): Promise<Person[]> }
+        friends?: Person[] | Promise<Person[] | undefined> | { (): Person[] | undefined } | { (): Promise<Person[] | undefined> }
     }
 }

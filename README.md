@@ -96,9 +96,9 @@ export namespace schema {
 Note that all the field (non-argument) types can either be
 
 * the actual type (`Person`),
-* a promise for the actual type (`Promise&lt;Person>`),
+* a promise for the actual type (`Promise<Person>`),
 * a function generating the actual type (`(): Person`), or
-* a function generating a Promise (`(): Promise&lt;Person>`)  
+* a function generating a Promise (`(): Promise<Person>`)  
 
 For fields with arguments, only the latter two apply.
 

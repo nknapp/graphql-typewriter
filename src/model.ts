@@ -6,7 +6,7 @@ export interface Root {
     }
 }
 
-export type Kind = 'SCALAR' | 'OBJECT' | 'NON_NULL' | 'LIST' | 'ENUM' | 'UNION'
+export type Kind = 'SCALAR' | 'OBJECT' | 'NON_NULL' | 'LIST' | 'ENUM' | 'UNION' | 'INTERFACE'
 
 /**
  * Model definition of the introspection result
@@ -19,10 +19,10 @@ export interface TypeDef {
     fields?: Field[]
     enumValues?: EnumValue[]
     possibleTypes?: Type[]
+    interfaces?: Type[]
 
     // Not yet considered
     inputFields: any
-    interfaces: any[]
 }
 
 export class Field {

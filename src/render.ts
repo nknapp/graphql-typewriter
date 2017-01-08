@@ -31,6 +31,7 @@ export class Renderer {
 export namespace schema {
     ${this.renderEnums(root.data.__schema.types)}
     ${this.renderUnions(root.data.__schema.types)}
+    ${this.renderInterfaces(root.data.__schema.types)}
     ${this.renderTypes(root.data.__schema.types)}
 }
 `
@@ -58,10 +59,19 @@ export namespace schema {
     renderTypeDef(type: TypeDef): string {
         return source`
 ${this.renderComment(type.description)}
-export interface ${type.name} {
+export interface ${type.name} ${this.renderExtends(type)}{
     ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
 }
 `
+    }
+
+    renderExtends(type: TypeDef): string {
+        if (type.interfaces && type.interfaces.length > 0) {
+            const interfaces = type.interfaces.map((it) => it.name).join(', ')
+            return `extends ${interfaces} `
+        } else {
+            return ''
+        }
     }
 
     /**
@@ -137,6 +147,7 @@ ${this.renderMember(field)}
             case 'OBJECT':
             case 'ENUM':
             case 'UNION':
+            case 'INTERFACE':
                 return wrap(type.name)
             case 'LIST':
                 return wrap(`${this.renderType(type.ofType, true)}[]`)
@@ -239,6 +250,33 @@ ${value.name}: '${value.name}',
 ${this.renderComment(type.description)}
 export type ${type.name} = ${unionValues}
 
+`
+    }
+
+    /**
+     * Render a list of interfaces.
+     * @param types
+     * @returns
+     */
+    renderInterfaces(types: TypeDef[]) {
+        return types
+            .filter((type) => !this.introspectionTypes[type.name])
+            .filter((type) => type.kind === 'INTERFACE')
+            .map((type) => this.renderInterface(type))
+            .join('\n')
+    }
+
+    /**
+     * Render an interface.
+     * @param type
+     * @returns
+     */
+    renderInterface(type: TypeDef): string {
+        return source`
+${this.renderComment(type.description)}
+export interface ${type.name} {
+    ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
+}
 `
     }
 }

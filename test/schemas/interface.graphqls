@@ -1,0 +1,26 @@
+
+# A character
+interface Character {
+  id: ID!
+  name: String!
+}
+
+interface Functional {
+  primaryFunction: String
+}
+
+type Human implements Character {
+  id: ID!
+  name: String!
+  friends: [Character]
+}
+
+type Droid implements Character, Functional {
+  id: ID!
+  name: String!
+  primaryFunction: String
+}
+
+type Query {
+  characters: [Character]
+}

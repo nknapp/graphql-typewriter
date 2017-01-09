@@ -3,6 +3,8 @@ import {source, OMIT_NEXT_NEWLINE} from './renderTag'
 
 export interface Options {
     tslint?: Object
+    contextType?: string
+    imports?: string[]
 }
 
 export class Renderer {
@@ -26,17 +28,24 @@ export class Renderer {
      * @returns {string}
      */
     render(root: Root): string {
-        const result = source`
-/* tslint:disable */
+        const contextType = this.options.contextType || 'any'
+        const imports = (this.options.imports || []).join('\n')
+        const namespace = source`
 export namespace schema {
+    export type Resolver<Args, Result> =
+        Result |
+        Promise<Result> |
+        ((root: any, args: Args, context: ${contextType}) => Result | Promise<Result>)
+
     ${this.renderEnums(root.data.__schema.types)}
     ${this.renderUnions(root.data.__schema.types)}
     ${this.renderInterfaces(root.data.__schema.types)}
     ${this.renderInputObjects(root.data.__schema.types)}
     ${this.renderTypes(root.data.__schema.types)}
-}
-`
-        return result.replace(/^\s+$/mg, '')
+}`
+        return `/* tslint:disable */
+${imports}
+${namespace.replace(/^\s+$/mg, '')}`
     }
 
     /**
@@ -93,44 +102,12 @@ ${this.renderMember(field)}
      * @returns {string}
      */
     renderMember(field: Field) {
-        const typeStr = this.renderType(field.type, false)
-        if (field.args && field.args.length > 0) {
-            // Render property with arguments as functions
-            const argType = this.renderArgumentType(field.args)
-            return `${field.name}(args: {${argType}}): ${this.renderDirectTypes(typeStr, false)}`
-        } else {
-            // Render property as field, with the option of being of a function-type () => ReturnValue
-            const optional = field.type.kind !== 'NON_NULL'
-            const name = optional ? field.name + '?' : field.name
-            const directTypes = this.renderDirectTypes(typeStr, optional)
-            const functionTypes = this.renderFunctionTypes(typeStr, optional)
-            return `${name}: ${directTypes} | ${functionTypes}`
-        }
-    }
-
-    /**
-     * Render the type of a field on all variants (promises, methods etc)
-     * @param type
-     */
-    renderDirectTypes(typeStr: string, optional: boolean) {
-        if (optional) {
-            return `${typeStr} | Promise<${typeStr} | undefined>`
-        } else {
-            return `${typeStr} | Promise<${typeStr}>`
-        }
-    }
-
-    /**
-     * Render return type of a fuction the member as function
-     * @param typeStr
-     * @returns {string}
-     */
-    renderFunctionTypes(typeStr: string, optional: boolean) {
-        if (optional) {
-            return `{ (): ${typeStr} | undefined } | { (): Promise<${typeStr} | undefined> }`
-        } else {
-            return `{ (): ${typeStr} } | { (): Promise<${typeStr}> }`
-        }
+        const optional = field.type.kind !== 'NON_NULL'
+        const type = this.renderType(field.type, false)
+        const resultType = optional ? `${type} | undefined` : type
+        const argType = this.renderArgumentType(field.args || [])
+        const name = optional ? field.name + '?' : field.name
+        return `${name}: Resolver<${argType}, ${resultType}>`
     }
 
     /**
@@ -173,9 +150,10 @@ ${this.renderMember(field)}
      * Render the arguments of a function
      */
     renderArgumentType(args: Argument[]) {
-        return args.map((arg) => {
+        const base = args.map((arg) => {
             return `${arg.name}: ${this.renderType(arg.type, false)}`
         }).join(', ')
+        return `{${base}}`
     }
 
     /**

@@ -11,6 +11,7 @@ export namespace schema {
     export interface Functional {
         primaryFunction?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }
     }
+
     export interface Query {
         characters?: (Character | undefined)[] | Promise<(Character | undefined)[] | undefined> | { (): (Character | undefined)[] | undefined } | { (): Promise<(Character | undefined)[] | undefined> }
     }

@@ -6,7 +6,7 @@ export interface Root {
     }
 }
 
-export type Kind = 'SCALAR' | 'OBJECT' | 'NON_NULL' | 'LIST' | 'ENUM' | 'UNION' | 'INTERFACE'
+export type Kind = 'SCALAR' | 'OBJECT' | 'NON_NULL' | 'LIST' | 'ENUM' | 'UNION' | 'INTERFACE' | 'INPUT_OBJECT'
 
 /**
  * Model definition of the introspection result
@@ -20,9 +20,7 @@ export interface TypeDef {
     enumValues?: EnumValue[]
     possibleTypes?: Type[]
     interfaces?: Type[]
-
-    // Not yet considered
-    inputFields: any
+    inputFields: InputField[]
 }
 
 export class Field {
@@ -32,6 +30,13 @@ export class Field {
     type: Type
     isDeprecated: boolean
     deprecationReason: string
+}
+
+export class InputField {
+    name: string
+    description: string
+    type: Type
+    defaultValue: any
 }
 
 export class Argument {

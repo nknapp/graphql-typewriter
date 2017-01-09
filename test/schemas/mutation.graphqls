@@ -1,0 +1,19 @@
+type KeyValue {
+  key: ID!
+  value: String
+}
+
+# Set a key to a value
+input SetValueCommand {
+  key: ID!
+  value: String
+}
+
+type Mutation {
+  simpleMutation(key: ID!, value: String): [KeyValue]
+  commandMutation(cmd: SetValueCommand): [KeyValue]
+}
+
+type Query {
+  values: [KeyValue]
+}

@@ -1,4 +1,4 @@
-import {Root, TypeDef, Field, Argument, EnumValue} from './model'
+import {Root, TypeDef, Field, Argument, EnumValue, InputField} from './model'
 import {source, OMIT_NEXT_NEWLINE} from './renderTag'
 
 export interface Options {
@@ -32,6 +32,7 @@ export namespace schema {
     ${this.renderEnums(root.data.__schema.types)}
     ${this.renderUnions(root.data.__schema.types)}
     ${this.renderInterfaces(root.data.__schema.types)}
+    ${this.renderInputObjects(root.data.__schema.types)}
     ${this.renderTypes(root.data.__schema.types)}
 }
 `
@@ -148,6 +149,7 @@ ${this.renderMember(field)}
             case 'ENUM':
             case 'UNION':
             case 'INTERFACE':
+            case 'INPUT_OBJECT':
                 return wrap(type.name)
             case 'LIST':
                 return wrap(`${this.renderType(type.ofType, true)}[]`)
@@ -278,6 +280,58 @@ export interface ${type.name} {
     ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
 }
 `
+    }
+
+    /**
+     * Render a list of input object.
+     * @param types
+     * @returns
+     */
+    renderInputObjects(types: TypeDef[]) {
+        return types
+            .filter((type) => !this.introspectionTypes[type.name])
+            .filter((type) => type.kind === 'INPUT_OBJECT')
+            .map((type) => this.renderInputObject(type))
+            .join('\n')
+    }
+
+    /**
+     * Render an input object.
+     * @param type
+     * @returns
+     */
+    renderInputObject(type: TypeDef): string {
+        return source`
+${this.renderComment(type.description)}
+export interface ${type.name} {
+    ${type.inputFields.map((field) => this.renderInputMemberWithComment(field)).join('\n')}
+}
+`
+    }
+
+    /**
+     * Render a input member (field or method) and its doc-comment
+     * @param field
+     * @returns
+     */
+    renderInputMemberWithComment(field: InputField): string {
+        return source`
+${this.renderComment(field.description)}
+${this.renderInputMember(field)}
+`
+    }
+
+    /**
+     * Render a single input field or method without doc-comment
+     * @param field
+     * @returns {string}
+     */
+    renderInputMember(field: InputField) {
+        const type = this.renderType(field.type, false)
+        // Render property as field, with the option of being of a function-type () => ReturnValue
+        const optional = field.type.kind !== 'NON_NULL'
+        const name = optional ? field.name + '?' : field.name
+        return `${name}: ${type}`
     }
 }
 

@@ -1,18 +1,23 @@
 /* tslint:disable */
+
 export namespace schema {
+    export type Resolver<Args, Result> =
+        Result |
+        Promise<Result> |
+        ((root: any, args: Args, context: any) => Result | Promise<Result>)
 
     export interface Query {
-        requiredStringField: string | Promise<string> | { (): string } | { (): Promise<string> }
-        optionalStringField?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }
-        requiredIntField: number | Promise<number> | { (): number } | { (): Promise<number> }
-        requiredObjectField: A | Promise<A> | { (): A } | { (): Promise<A> }
-        requiredListOfOptionals: (string | undefined)[] | Promise<(string | undefined)[]> | { (): (string | undefined)[] } | { (): Promise<(string | undefined)[]> }
-        optionalListOfOptionals?: (string | undefined)[] | Promise<(string | undefined)[] | undefined> | { (): (string | undefined)[] | undefined } | { (): Promise<(string | undefined)[] | undefined> }
-        requiredListOfRequired: string[] | Promise<string[]> | { (): string[] } | { (): Promise<string[]> }
-        optionalListOfRequired?: string[] | Promise<string[] | undefined> | { (): string[] | undefined } | { (): Promise<string[] | undefined> }
+        requiredStringField: Resolver<{}, string>
+        optionalStringField?: Resolver<{}, string | undefined>
+        requiredIntField: Resolver<{}, number>
+        requiredObjectField: Resolver<{}, A>
+        requiredListOfOptionals: Resolver<{}, (string | undefined)[]>
+        optionalListOfOptionals?: Resolver<{}, (string | undefined)[] | undefined>
+        requiredListOfRequired: Resolver<{}, string[]>
+        optionalListOfRequired?: Resolver<{}, string[] | undefined>
     }
 
     export interface A {
-        name: string | Promise<string> | { (): string } | { (): Promise<string> }
+        name: Resolver<{}, string>
     }
 }

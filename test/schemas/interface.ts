@@ -1,30 +1,35 @@
 /* tslint:disable */
+
 export namespace schema {
+    export type Resolver<Args, Result> =
+        Result |
+        Promise<Result> |
+        ((root: any, args: Args, context: any) => Result | Promise<Result>)
 
     /**
      * A character
      */
     export interface Character {
-        id: string | Promise<string> | { (): string } | { (): Promise<string> }
-        name: string | Promise<string> | { (): string } | { (): Promise<string> }
+        id: Resolver<{}, string>
+        name: Resolver<{}, string>
     }
     export interface Functional {
-        primaryFunction?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }
+        primaryFunction?: Resolver<{}, string | undefined>
     }
 
     export interface Query {
-        characters?: (Character | undefined)[] | Promise<(Character | undefined)[] | undefined> | { (): (Character | undefined)[] | undefined } | { (): Promise<(Character | undefined)[] | undefined> }
+        characters?: Resolver<{}, (Character | undefined)[] | undefined>
     }
 
     export interface Human extends Character {
-        id: string | Promise<string> | { (): string } | { (): Promise<string> }
-        name: string | Promise<string> | { (): string } | { (): Promise<string> }
-        friends?: (Character | undefined)[] | Promise<(Character | undefined)[] | undefined> | { (): (Character | undefined)[] | undefined } | { (): Promise<(Character | undefined)[] | undefined> }
+        id: Resolver<{}, string>
+        name: Resolver<{}, string>
+        friends?: Resolver<{}, (Character | undefined)[] | undefined>
     }
 
     export interface Droid extends Character, Functional {
-        id: string | Promise<string> | { (): string } | { (): Promise<string> }
-        name: string | Promise<string> | { (): string } | { (): Promise<string> }
-        primaryFunction?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }
+        id: Resolver<{}, string>
+        name: Resolver<{}, string>
+        primaryFunction?: Resolver<{}, string | undefined>
     }
 }

@@ -1,5 +1,10 @@
 /* tslint:disable */
+
 export namespace schema {
+    export type Resolver<Args, Result> =
+        Result |
+        Promise<Result> |
+        ((root: any, args: Args, context: any) => Result | Promise<Result>)
 
     export type Single = A
 
@@ -9,15 +14,15 @@ export namespace schema {
     export type AOrB = A | B
 
     export interface Query {
-        single?: Single | Promise<Single | undefined> | { (): Single | undefined } | { (): Promise<Single | undefined> }
-        aOrB?: AOrB | Promise<AOrB | undefined> | { (): AOrB | undefined } | { (): Promise<AOrB | undefined> }
+        single?: Resolver<{}, Single | undefined>
+        aOrB?: Resolver<{}, AOrB | undefined>
     }
 
     export interface A {
-        aName?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }
+        aName?: Resolver<{}, string | undefined>
     }
 
     export interface B {
-        bName?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }
+        bName?: Resolver<{}, string | undefined>
     }
 }

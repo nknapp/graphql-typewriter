@@ -1,5 +1,10 @@
 /* tslint:disable */
+
 export namespace schema {
+    export type Resolver<Args, Result> =
+        Result |
+        Promise<Result> |
+        ((root: any, args: Args, context: any) => Result | Promise<Result>)
 
     /**
      * Set a key to a value
@@ -9,16 +14,16 @@ export namespace schema {
         value?: string
     }
     export interface Query {
-        values?: (KeyValue | undefined)[] | Promise<(KeyValue | undefined)[] | undefined> | { (): (KeyValue | undefined)[] | undefined } | { (): Promise<(KeyValue | undefined)[] | undefined> }
+        values?: Resolver<{}, (KeyValue | undefined)[] | undefined>
     }
 
     export interface KeyValue {
-        key: string | Promise<string> | { (): string } | { (): Promise<string> }
-        value?: string | Promise<string | undefined> | { (): string | undefined } | { (): Promise<string | undefined> }
+        key: Resolver<{}, string>
+        value?: Resolver<{}, string | undefined>
     }
 
     export interface Mutation {
-        simpleMutation(args: {key: string, value: string}): (KeyValue | undefined)[] | Promise<(KeyValue | undefined)[]>
-        commandMutation(args: {cmd: SetValueCommand}): (KeyValue | undefined)[] | Promise<(KeyValue | undefined)[]>
+        simpleMutation?: Resolver<{key: string, value: string}, (KeyValue | undefined)[] | undefined>
+        commandMutation?: Resolver<{cmd: SetValueCommand}, (KeyValue | undefined)[] | undefined>
     }
 }

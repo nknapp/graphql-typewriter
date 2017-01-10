@@ -1,10 +1,7 @@
 /* tslint:disable */
 
 export namespace schema {
-    export type Resolver<Args, Result> =
-        Result |
-        Promise<Result> |
-        ((root: any, args: Args, context: any) => Result | Promise<Result>)
+    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     export type STATE = 'OPEN' | 'CLOSED' | 'DELETED'
     export const STATE: {
@@ -20,8 +17,8 @@ export namespace schema {
         DELETED: 'DELETED',
     }
 
-    export interface Query {
-        state: Resolver<{}, STATE>
-        optionalState?: Resolver<{}, STATE | undefined>
+    export interface Query<Ctx> {
+        state: Resolver<{}, STATE, Ctx>
+        optionalState?: Resolver<{}, STATE | undefined, Ctx>
     }
 }

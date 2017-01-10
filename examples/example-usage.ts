@@ -2,26 +2,34 @@ import {graphql, buildSchema} from 'graphql'
 import {schema} from './graphql/schema/example.graphqls'
 import * as fs from 'fs'
 
+type Context = {
+    year: number
+}
+
 // Implement the generated interface
-class Root implements schema.Query {
-    person(args: {name: string}): schema.Person|Promise<schema.Person> {
-        return new Person(args.name, 10)
+class Root implements schema.Query<Context> {
+    person(args: {name: string}) {
+        return new Person(args.name, 1981)
     }
 }
 
-class Person implements schema.Person {
+class Person implements schema.Person<Context> {
     name: string
-    age: number
+    yearOfBirth: number
 
-    constructor(name: string, age: number) {
+    constructor(name: string, yearOfBirth: number) {
         this.name = name
-        this.age = age
+        this.yearOfBirth = yearOfBirth
+    }
+
+    age(_, context: Context) {
+        return context.year - this.yearOfBirth
     }
 
     async friends(): Promise<Person[]> {
         return Promise.resolve([
-            new Person(this.name + "'s first friend", this.age + 1),
-            new Person(this.name + "'s second friend", this.age + 2)
+            new Person(this.name + "'s first friend", this.yearOfBirth - 1),
+            new Person(this.name + "'s second friend", this.yearOfBirth - 2)
         ])
     }
 }
@@ -30,5 +38,6 @@ class Person implements schema.Person {
 graphql(
     buildSchema(fs.readFileSync('graphql/schema/example.graphqls', {encoding: 'utf-8'})),
     '{ person(name:"Joye") { name age friends { name age } }}',
-    new Root()
+    new Root(),
+    {year: 2017}
 ).then((result) => console.log(JSON.stringify(result, null, 2)))

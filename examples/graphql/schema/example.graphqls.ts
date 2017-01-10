@@ -1,31 +1,33 @@
 /* tslint:disable */
+
 export namespace schema {
+    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     /**
      * The base query
      */
-    export interface Query {
+    export interface Query<Ctx> {
         /**
          * Retrieve a person by name
          */
-        person(args: {name: string}): Person | Promise<Person>
+        person?: Resolver<{name: string}, Person<Ctx> | undefined, Ctx>
     }
 
     /**
      * A type describing a person
      */
-    export interface Person {
+    export interface Person<Ctx> {
         /**
          * The persons name
          */
-        name: string | Promise<string> | { (): string } | { (): Promise<string> }
+        name: Resolver<{}, string, Ctx>
         /**
          * The persons age in years
          */
-        age: number | Promise<number> | { (): number } | { (): Promise<number> }
+        age: Resolver<{}, number, Ctx>
         /**
          * Friendship relations to other persons
          */
-        friends?: Person[] | Promise<Person[] | undefined> | { (): Person[] | undefined } | { (): Promise<Person[] | undefined> }
+        friends?: Resolver<{}, Person<Ctx>[] | undefined, Ctx>
     }
 }

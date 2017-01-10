@@ -1,35 +1,32 @@
 /* tslint:disable */
 
 export namespace schema {
-    export type Resolver<Args, Result> =
-        Result |
-        Promise<Result> |
-        ((root: any, args: Args, context: any) => Result | Promise<Result>)
+    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     /**
      * A character
      */
-    export interface Character {
-        id: Resolver<{}, string>
-        name: Resolver<{}, string>
+    export interface Character<Ctx> {
+        id: Resolver<{}, string, Ctx>
+        name: Resolver<{}, string, Ctx>
     }
-    export interface Functional {
-        primaryFunction?: Resolver<{}, string | undefined>
-    }
-
-    export interface Query {
-        characters?: Resolver<{}, (Character | undefined)[] | undefined>
+    export interface Functional<Ctx> {
+        primaryFunction?: Resolver<{}, string | undefined, Ctx>
     }
 
-    export interface Human extends Character {
-        id: Resolver<{}, string>
-        name: Resolver<{}, string>
-        friends?: Resolver<{}, (Character | undefined)[] | undefined>
+    export interface Query<Ctx> {
+        characters?: Resolver<{}, (Character<Ctx> | undefined)[] | undefined, Ctx>
     }
 
-    export interface Droid extends Character, Functional {
-        id: Resolver<{}, string>
-        name: Resolver<{}, string>
-        primaryFunction?: Resolver<{}, string | undefined>
+    export interface Human<Ctx> extends Character<Ctx> {
+        id: Resolver<{}, string, Ctx>
+        name: Resolver<{}, string, Ctx>
+        friends?: Resolver<{}, (Character<Ctx> | undefined)[] | undefined, Ctx>
+    }
+
+    export interface Droid<Ctx> extends Character<Ctx>, Functional<Ctx> {
+        id: Resolver<{}, string, Ctx>
+        name: Resolver<{}, string, Ctx>
+        primaryFunction?: Resolver<{}, string | undefined, Ctx>
     }
 }

@@ -1,23 +1,20 @@
 /* tslint:disable */
 
 export namespace schema {
-    export type Resolver<Args, Result> =
-        Result |
-        Promise<Result> |
-        ((root: any, args: Args, context: any) => Result | Promise<Result>)
+    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
 
-    export interface Query {
-        requiredStringField: Resolver<{}, string>
-        optionalStringField?: Resolver<{}, string | undefined>
-        requiredIntField: Resolver<{}, number>
-        requiredObjectField: Resolver<{}, A>
-        requiredListOfOptionals: Resolver<{}, (string | undefined)[]>
-        optionalListOfOptionals?: Resolver<{}, (string | undefined)[] | undefined>
-        requiredListOfRequired: Resolver<{}, string[]>
-        optionalListOfRequired?: Resolver<{}, string[] | undefined>
+    export interface Query<Ctx> {
+        requiredStringField: Resolver<{}, string, Ctx>
+        optionalStringField?: Resolver<{}, string | undefined, Ctx>
+        requiredIntField: Resolver<{}, number, Ctx>
+        requiredObjectField: Resolver<{}, A<Ctx>, Ctx>
+        requiredListOfOptionals: Resolver<{}, (string | undefined)[], Ctx>
+        optionalListOfOptionals?: Resolver<{}, (string | undefined)[] | undefined, Ctx>
+        requiredListOfRequired: Resolver<{}, string[], Ctx>
+        optionalListOfRequired?: Resolver<{}, string[] | undefined, Ctx>
     }
 
-    export interface A {
-        name: Resolver<{}, string>
+    export interface A<Ctx> {
+        name: Resolver<{}, string, Ctx>
     }
 }

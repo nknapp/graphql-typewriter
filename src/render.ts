@@ -3,8 +3,6 @@ import {source, OMIT_NEXT_NEWLINE} from './renderTag'
 
 export interface Options {
     tslint?: Object
-    contextType?: string
-    imports?: string[]
 }
 
 export class Renderer {
@@ -28,14 +26,9 @@ export class Renderer {
      * @returns {string}
      */
     render(root: Root): string {
-        const contextType = this.options.contextType || 'any'
-        const imports = (this.options.imports || []).join('\n')
         const namespace = source`
 export namespace schema {
-    export type Resolver<Args, Result> =
-        Result |
-        Promise<Result> |
-        ((root: any, args: Args, context: ${contextType}) => Result | Promise<Result>)
+    export type Resolver<Args, Result, Ctx> = ${this.renderResolverDefinition()}
 
     ${this.renderEnums(root.data.__schema.types)}
     ${this.renderUnions(root.data.__schema.types)}
@@ -44,8 +37,14 @@ export namespace schema {
     ${this.renderTypes(root.data.__schema.types)}
 }`
         return `/* tslint:disable */
-${imports}
+
 ${namespace.replace(/^\s+$/mg, '')}`
+    }
+
+    renderResolverDefinition() {
+        return 'Result | ' +
+               'Promise<Result> | ' +
+               '((args: Args, context: Ctx) => Result | Promise<Result>)'
     }
 
     /**
@@ -69,7 +68,7 @@ ${namespace.replace(/^\s+$/mg, '')}`
     renderTypeDef(type: TypeDef): string {
         return source`
 ${this.renderComment(type.description)}
-export interface ${type.name} ${this.renderExtends(type)}{
+export interface ${type.name}<Ctx> ${this.renderExtends(type)}{
     ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
 }
 `
@@ -77,7 +76,7 @@ export interface ${type.name} ${this.renderExtends(type)}{
 
     renderExtends(type: TypeDef): string {
         if (type.interfaces && type.interfaces.length > 0) {
-            const interfaces = type.interfaces.map((it) => it.name).join(', ')
+            const interfaces = type.interfaces.map((it) => `${it.name}<Ctx>`).join(', ')
             return `extends ${interfaces} `
         } else {
             return ''
@@ -107,7 +106,7 @@ ${this.renderMember(field)}
         const resultType = optional ? `${type} | undefined` : type
         const argType = this.renderArgumentType(field.args || [])
         const name = optional ? field.name + '?' : field.name
-        return `${name}: Resolver<${argType}, ${resultType}>`
+        return `${name}: Resolver<${argType}, ${resultType}, Ctx>`
     }
 
     /**
@@ -115,21 +114,25 @@ ${this.renderMember(field)}
      * This function creates the base type that is then used as generic to a promise
      */
     renderType(type, optional: boolean) {
-        function wrap(arg) {
+        function opt(arg) {
             return optional ? `(${arg} | undefined)` : arg
+        }
+        function generic(arg) {
+            return `${arg}<Ctx>`
         }
 
         switch (type.kind) {
             case 'SCALAR':
-                return wrap(scalars[type.name])
-            case 'OBJECT':
+                return opt(scalars[type.name])
             case 'ENUM':
+            case 'INPUT_OBJECT':
+                return opt(type.name)
+            case 'OBJECT':
             case 'UNION':
             case 'INTERFACE':
-            case 'INPUT_OBJECT':
-                return wrap(type.name)
+                return opt(generic(type.name))
             case 'LIST':
-                return wrap(`${this.renderType(type.ofType, true)}[]`)
+                return opt(`${this.renderType(type.ofType, true)}[]`)
             case 'NON_NULL':
                 return this.renderType(type.ofType, false)
         }
@@ -225,10 +228,11 @@ ${value.name}: '${value.name}',
      * @returns
      */
     renderUnion(type: TypeDef): string {
-        const unionValues = type.possibleTypes.map(type => type.name).join(' | ')
+        // Scalars cannot be used in unions, so we're safe here
+        const unionValues = type.possibleTypes.map(type => `${type.name}<Ctx>`).join(' | ')
         return source`
 ${this.renderComment(type.description)}
-export type ${type.name} = ${unionValues}
+export type ${type.name}<Ctx> = ${unionValues}
 
 `
     }
@@ -254,7 +258,7 @@ export type ${type.name} = ${unionValues}
     renderInterface(type: TypeDef): string {
         return source`
 ${this.renderComment(type.description)}
-export interface ${type.name} {
+export interface ${type.name}<Ctx> {
     ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
 }
 `

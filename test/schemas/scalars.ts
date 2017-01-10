@@ -1,16 +1,13 @@
 /* tslint:disable */
 
 export namespace schema {
-    export type Resolver<Args, Result> =
-        Result |
-        Promise<Result> |
-        ((root: any, args: Args, context: any) => Result | Promise<Result>)
+    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
 
-    export interface Query {
-        stringField?: Resolver<{}, string | undefined>
-        booleanField?: Resolver<{}, boolean | undefined>
-        intField?: Resolver<{}, number | undefined>
-        floatField?: Resolver<{}, number | undefined>
-        idField?: Resolver<{}, string | undefined>
+    export interface Query<Ctx> {
+        stringField?: Resolver<{}, string | undefined, Ctx>
+        booleanField?: Resolver<{}, boolean | undefined, Ctx>
+        intField?: Resolver<{}, number | undefined, Ctx>
+        floatField?: Resolver<{}, number | undefined, Ctx>
+        idField?: Resolver<{}, string | undefined, Ctx>
     }
 }

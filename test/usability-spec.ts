@@ -30,7 +30,7 @@ describe('The simple schema', function () {
     it('should be possible to use with graphql', async function () {
         const schema = buildSchema(read(fixture('simpleSchema.graphqls')))
 
-        const root: simpleSchema.Query = {
+        const root: simpleSchema.Query<{}> = {
             field1: {
                 name: 'abc',
                 size: () => 4
@@ -79,7 +79,7 @@ describe('The simple schema', function () {
 
 describe('The arguments schema', async function () {
     const schema = buildSchema(read(fixture('arguments.graphqls')))
-    const root: argumentSchema.Query = {
+    const root: argumentSchema.Query<{}> = {
         field1: (args: {a: string, b: number}) => {
             return args.a + ' ' + args.b
         }

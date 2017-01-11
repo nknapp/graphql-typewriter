@@ -37,18 +37,5 @@ export function source(array, a1, a2?, a3?, a4?, a5?, a6? /* dynamic args */) {
                 result += array[i + 1]
         }
     }
-
-    result = result.replace(/(^\n|\n$)/g, '')
-
-    const templateTag = array[0].match(/\s*\n([ \t])*##+ TEMPLATE ##+\s*$/m)
-    if (templateTag) {
-        // Determine de-indent
-        const deindent = templateTag[1].length - templateTag[1].lastIndexOf('\n') - 1
-        return result
-            .substr
-            .split('\n')
-            .map((line) => line.substr(deindent))
-    }
-
-    return result
+    return result.replace(/(^\n|\n$)/g, '')
 }

@@ -74,6 +74,11 @@ export interface ${type.name}<Ctx> ${this.renderExtends(type)}{
 `
     }
 
+    /**
+     * Renders the extends clause of an interface (e.g. 'extends A, B. C').
+     * @param type
+     * @returns
+     */
     renderExtends(type: TypeDef): string {
         if (type.interfaces && type.interfaces.length > 0) {
             const interfaces = type.interfaces.map((it) => `${it.name}<Ctx>`).join(', ')
@@ -114,7 +119,7 @@ ${this.renderMember(field)}
      * This function creates the base type that is then used as generic to a promise
      */
     renderType(type, optional: boolean) {
-        function opt(arg) {
+        function maybeOptional(arg) {
             return optional ? `(${arg} | undefined)` : arg
         }
         function generic(arg) {
@@ -123,16 +128,16 @@ ${this.renderMember(field)}
 
         switch (type.kind) {
             case 'SCALAR':
-                return opt(scalars[type.name])
+                return maybeOptional(scalars[type.name])
             case 'ENUM':
             case 'INPUT_OBJECT':
-                return opt(type.name)
+                return maybeOptional(type.name)
             case 'OBJECT':
             case 'UNION':
             case 'INTERFACE':
-                return opt(generic(type.name))
+                return maybeOptional(generic(type.name))
             case 'LIST':
-                return opt(`${this.renderType(type.ofType, true)}[]`)
+                return maybeOptional(`${this.renderType(type.ofType, true)}[]`)
             case 'NON_NULL':
                 return this.renderType(type.ofType, false)
         }

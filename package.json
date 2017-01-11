@@ -54,7 +54,6 @@
     "@types/node": "^6.0.46",
     "chai": "^3.5.0",
     "ghooks": "^1.0.3",
-    "graphql": "^0.7.2",
     "mocha": "^2.3.3",
     "thoughtful-release": "^0.3.0",
     "ts-node": "^1.7.0",

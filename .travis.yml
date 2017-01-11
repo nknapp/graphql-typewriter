@@ -10,7 +10,7 @@ script:
   - npm install remap-istanbul
   - istanbul cover --print none --report none ./node_modules/.bin/_mocha
   # Remap coverage report back to typescript files
-  - remap-istanbul -i ./coverage/coverage.json -o ./coverage/coverage-remapped.json text
+  - remap-istanbul -i ./coverage/coverage.json -o ./coverage/coverage-remapped.json
   - istanbul report --include ./coverage/coverage-remapped.json text lcovonly
   # Test that running the executable itself does not create an error
   - bin/gql2ts-for-server.js

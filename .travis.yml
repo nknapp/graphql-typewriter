@@ -1,19 +1,13 @@
 sudo: false
 language: "node_js"
 node_js:
-  - "4"
-  - "5"
   - "6"
+  - "7"
 before_script:
 script:
   - npm install istanbul
-  - npm install remap-istanbul
   - istanbul cover --print none --report none ./node_modules/.bin/_mocha
-  # Remap coverage report back to typescript files
-  - remap-istanbul -i ./coverage/coverage.json -o ./coverage/coverage-remapped.json
-  - istanbul report --include ./coverage/coverage-remapped.json text lcovonly
   # Test that running the executable itself does not create an error
   - bin/gql2ts-for-server.js
 after_script:
-  - npm install coveralls
-  - cat ./coverage/lcov.info | coveralls
+  - ./.travis-ci/coverage.sh

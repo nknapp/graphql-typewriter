@@ -1,7 +1,8 @@
 /* tslint:disable */
 
 export namespace schema {
-    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
+    export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
+        ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     /**
      * Set a key to a value
@@ -11,16 +12,16 @@ export namespace schema {
         value?: string
     }
     export interface Query<Ctx> {
-        values?: Resolver<{}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
+        values?: GraphqlField<{}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
     }
 
     export interface KeyValue<Ctx> {
-        key: Resolver<{}, string, Ctx>
-        value?: Resolver<{}, string | undefined, Ctx>
+        key: GraphqlField<{}, string, Ctx>
+        value?: GraphqlField<{}, string | undefined, Ctx>
     }
 
     export interface Mutation<Ctx> {
-        simpleMutation?: Resolver<{key: string, value: string}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
-        commandMutation?: Resolver<{cmd: SetValueCommand}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
+        simpleMutation?: GraphqlField<{key: string, value: string}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
+        commandMutation?: GraphqlField<{cmd: SetValueCommand}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
     }
 }

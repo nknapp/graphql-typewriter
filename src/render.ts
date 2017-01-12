@@ -28,7 +28,8 @@ export class Renderer {
     render(root: Root): string {
         const namespace = source`
 export namespace schema {
-    export type Resolver<Args, Result, Ctx> = ${this.renderResolverDefinition()}
+    export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
+        ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     ${this.renderEnums(root.data.__schema.types)}
     ${this.renderUnions(root.data.__schema.types)}
@@ -39,12 +40,6 @@ export namespace schema {
         return `/* tslint:disable */
 
 ${namespace.replace(/^\s+$/mg, '')}`
-    }
-
-    renderResolverDefinition() {
-        return 'Result | ' +
-               'Promise<Result> | ' +
-               '((args: Args, context: Ctx) => Result | Promise<Result>)'
     }
 
     /**
@@ -111,7 +106,7 @@ ${this.renderMember(field)}
         const resultType = optional ? `${type} | undefined` : type
         const argType = this.renderArgumentType(field.args || [])
         const name = optional ? field.name + '?' : field.name
-        return `${name}: Resolver<${argType}, ${resultType}, Ctx>`
+        return `${name}: GraphqlField<${argType}, ${resultType}, Ctx>`
     }
 
     /**

@@ -1,13 +1,14 @@
 /* tslint:disable */
 
 export namespace schema {
-    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
+    export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
+        ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     export interface Query<Ctx> {
-        stringField?: Resolver<{}, string | undefined, Ctx>
-        booleanField?: Resolver<{}, boolean | undefined, Ctx>
-        intField?: Resolver<{}, number | undefined, Ctx>
-        floatField?: Resolver<{}, number | undefined, Ctx>
-        idField?: Resolver<{}, string | undefined, Ctx>
+        stringField?: GraphqlField<{}, string | undefined, Ctx>
+        booleanField?: GraphqlField<{}, boolean | undefined, Ctx>
+        intField?: GraphqlField<{}, number | undefined, Ctx>
+        floatField?: GraphqlField<{}, number | undefined, Ctx>
+        idField?: GraphqlField<{}, string | undefined, Ctx>
     }
 }

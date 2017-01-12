@@ -1,7 +1,8 @@
 /* tslint:disable */
 
 export namespace schema {
-    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
+    export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
+        ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     export type Single<Ctx> = A<Ctx>
 
@@ -11,15 +12,15 @@ export namespace schema {
     export type AOrB<Ctx> = A<Ctx> | B<Ctx>
 
     export interface Query<Ctx> {
-        single?: Resolver<{}, Single<Ctx> | undefined, Ctx>
-        aOrB?: Resolver<{}, AOrB<Ctx> | undefined, Ctx>
+        single?: GraphqlField<{}, Single<Ctx> | undefined, Ctx>
+        aOrB?: GraphqlField<{}, AOrB<Ctx> | undefined, Ctx>
     }
 
     export interface A<Ctx> {
-        aName?: Resolver<{}, string | undefined, Ctx>
+        aName?: GraphqlField<{}, string | undefined, Ctx>
     }
 
     export interface B<Ctx> {
-        bName?: Resolver<{}, string | undefined, Ctx>
+        bName?: GraphqlField<{}, string | undefined, Ctx>
     }
 }

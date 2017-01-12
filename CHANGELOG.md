@@ -1,6 +1,14 @@
 # Release notes for `gql2ts-for-server`
 
 <a name="current-release"></a>
+# Version 0.3.0 (Wed, 11 Jan 2017 23:59:55 GMT)
+
+* [66262cf](https://github.com/nknapp/gql2ts-for-server/commit/66262cf) Add context via a generic parameter. - Mario Siegenthaler
+* [36768c9](https://github.com/nknapp/gql2ts-for-server/commit/36768c9) Render members differently and more uniformly by using a type. This also allows to use root and context in all resolver functions. - Mario Siegenthaler
+* [1638d71](https://github.com/nknapp/gql2ts-for-server/commit/1638d71) Add support for input objects. (#21) - Mario Siegenthaler
+* [1e4c0f7](https://github.com/nknapp/gql2ts-for-server/commit/1e4c0f7) Regenerate the example to reflect the actual generated code. (#19) - Mario Siegenthaler
+* [617c51f](https://github.com/nknapp/gql2ts-for-server/commit/617c51f) Add support for graphql interfaces. (#17) - Mario Siegenthaler
+
 # Version 0.2.0 (Sun, 08 Jan 2017 06:49:31 GMT)
 
 * [618987d](https://github.com/nknapp/gql2ts-for-server/commit/618987d) Added tslint-config and fix reported problems (#14) - Nils Knappmeier

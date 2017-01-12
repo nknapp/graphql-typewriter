@@ -61,34 +61,36 @@ will be converted into the following `example.graphqls.ts`:
 
 ```ts
 /* tslint:disable */
+
 export namespace schema {
+    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     /**
      * The base query
      */
-    export interface Query {
+    export interface Query<Ctx> {
         /**
          * Retrieve a person by name
          */
-        person(args: {name: string}): Person | Promise<Person>
+        person?: Resolver<{name: string}, Person<Ctx> | undefined, Ctx>
     }
 
     /**
      * A type describing a person
      */
-    export interface Person {
+    export interface Person<Ctx> {
         /**
          * The persons name
          */
-        name: string | Promise<string> | { (): string } | { (): Promise<string> }
+        name: Resolver<{}, string, Ctx>
         /**
          * The persons age in years
          */
-        age: number | Promise<number> | { (): number } | { (): Promise<number> }
+        age: Resolver<{}, number, Ctx>
         /**
          * Friendship relations to other persons
          */
-        friends?: Person[] | Promise<Person[] | undefined> | { (): Person[] | undefined } | { (): Promise<Person[] | undefined> }
+        friends?: Resolver<{}, Person<Ctx>[] | undefined, Ctx>
     }
 }
 ```
@@ -110,26 +112,34 @@ import {graphql, buildSchema} from 'graphql'
 import {schema} from './graphql/schema/example.graphqls'
 import * as fs from 'fs'
 
+type Context = {
+    year: number
+}
+
 // Implement the generated interface
-class Root implements schema.Query {
-    person(args: {name: string}): schema.Person|Promise<schema.Person> {
-        return new Person(args.name, 10)
+class Root implements schema.Query<Context> {
+    person(args: {name: string}) {
+        return new Person(args.name, 1981)
     }
 }
 
-class Person implements schema.Person {
+class Person implements schema.Person<Context> {
     name: string
-    age: number
+    yearOfBirth: number
 
-    constructor(name: string, age: number) {
+    constructor(name: string, yearOfBirth: number) {
         this.name = name
-        this.age = age
+        this.yearOfBirth = yearOfBirth
+    }
+
+    age(_, context: Context) {
+        return context.year - this.yearOfBirth
     }
 
     async friends(): Promise<Person[]> {
         return Promise.resolve([
-            new Person(this.name + "'s first friend", this.age + 1),
-            new Person(this.name + "'s second friend", this.age + 2)
+            new Person(this.name + "'s first friend", this.yearOfBirth - 1),
+            new Person(this.name + "'s second friend", this.yearOfBirth - 2)
         ])
     }
 }
@@ -138,7 +148,8 @@ class Person implements schema.Person {
 graphql(
     buildSchema(fs.readFileSync('graphql/schema/example.graphqls', {encoding: 'utf-8'})),
     '{ person(name:"Joye") { name age friends { name age } }}',
-    new Root()
+    new Root(),
+    {year: 2017}
 ).then((result) => console.log(JSON.stringify(result, null, 2)))
 
 ```
@@ -154,15 +165,15 @@ The output of this program is
   "data": {
     "person": {
       "name": "Joye",
-      "age": 10,
+      "age": 36,
       "friends": [
         {
           "name": "Joye's first friend",
-          "age": 11
+          "age": 37
         },
         {
           "name": "Joye's second friend",
-          "age": 12
+          "age": 38
         }
       ]
     }

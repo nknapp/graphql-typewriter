@@ -11,4 +11,8 @@ export namespace schema {
         floatField?: GraphqlField<{}, number | undefined, Ctx>
         idField?: GraphqlField<{}, string | undefined, Ctx>
     }
+
+    export const defaultResolvers = {
+
+    }
 }

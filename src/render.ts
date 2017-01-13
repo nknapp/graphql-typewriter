@@ -36,6 +36,7 @@ export namespace schema {
     ${this.renderInterfaces(root.data.__schema.types)}
     ${this.renderInputObjects(root.data.__schema.types)}
     ${this.renderTypes(root.data.__schema.types)}
+    ${this.renderDefaultResolvers(root.data.__schema.types)}
 }`
         return `/* tslint:disable */
 
@@ -51,7 +52,7 @@ ${namespace.replace(/^\s+$/mg, '')}`
         return types
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'OBJECT')
-            .map((type) => this.renderTypeDef(type))
+            .map((type) => this.renderTypeDef(type, types))
             .join('\n\n')
     }
 
@@ -60,13 +61,30 @@ ${namespace.replace(/^\s+$/mg, '')}`
      * @param type
      * @returns
      */
-    renderTypeDef(type: TypeDef): string {
+    renderTypeDef(type: TypeDef, all: TypeDef[]): string {
         return source`
 ${this.renderComment(type.description)}
 export interface ${type.name}<Ctx> ${this.renderExtends(type)}{
-    ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
+    ${this.renderTypename(type.name, all)}${OMIT_NEXT_NEWLINE}
+${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
 }
 `
+    }
+
+    /**
+     * Renders a __typename constant if the type is used in a union or interface.
+     * @param forType
+     * @param all
+     */
+    renderTypename(forType: string, all: TypeDef[]): string {
+        const usedBy = all
+            .filter((type) => !this.introspectionTypes[type.name])
+            .filter((type) => type.kind === 'UNION' || type.kind === 'INTERFACE')
+            .filter((type) => type.possibleTypes.filter((cand) => cand.name === forType).length > 0)
+        if (usedBy.length === 0) {
+            return ''
+        }
+        return `__typename: '${forType}'\n`
     }
 
     /**
@@ -314,6 +332,38 @@ ${this.renderInputMember(field)}
         const optional = field.type.kind !== 'NON_NULL'
         const name = optional ? field.name + '?' : field.name
         return `${name}: ${type}`
+    }
+
+    /**
+     * Render a default resolver that implements resolveType for all unions and interfaces.
+     * @param types
+     * @return string
+     */
+    renderDefaultResolvers(types: TypeDef[]): string {
+        const resolvers = types
+            .filter((type) => !this.introspectionTypes[type.name])
+            .filter((type) => type.kind === 'UNION' || type.kind === 'INTERFACE')
+            .map((type) => this.renderResolver(type))
+            .join(',\n')
+        return source`\n
+export const defaultResolvers = {
+${resolvers}
+}`
+    }
+
+    /**
+     * Renders a single resolver.
+     *
+     * @param type
+     * @return string
+     */
+    renderResolver(type: TypeDef): string {
+        return source`
+    ${type.name}: {
+        __resolveType(obj) {
+            return obj.__typename
+        }
+    }`
     }
 }
 

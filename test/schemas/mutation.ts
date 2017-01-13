@@ -24,4 +24,8 @@ export namespace schema {
         simpleMutation?: GraphqlField<{key: string, value: string}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
         commandMutation?: GraphqlField<{cmd: SetValueCommand}, (KeyValue<Ctx> | undefined)[] | undefined, Ctx>
     }
+
+    export const defaultResolvers = {
+
+    }
 }

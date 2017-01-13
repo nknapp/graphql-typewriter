@@ -30,4 +30,8 @@ export namespace schema {
     export interface TypeB<Ctx> {
         nested?: GraphqlField<{}, (TypeA<Ctx> | undefined)[] | undefined, Ctx>
     }
+
+    export const defaultResolvers = {
+
+    }
 }

@@ -17,10 +17,25 @@ export namespace schema {
     }
 
     export interface A<Ctx> {
+        __typename: 'A'
         aName?: GraphqlField<{}, string | undefined, Ctx>
     }
 
     export interface B<Ctx> {
+        __typename: 'B'
         bName?: GraphqlField<{}, string | undefined, Ctx>
+    }
+
+    export const defaultResolvers = {
+        Single: {
+            __resolveType(obj) {
+                return obj.__typename
+            }
+        },
+        AOrB: {
+            __resolveType(obj) {
+                return obj.__typename
+            }
+        }
     }
 }

@@ -22,4 +22,8 @@ export namespace schema {
         state: GraphqlField<{}, STATE, Ctx>
         optionalState?: GraphqlField<{}, STATE | undefined, Ctx>
     }
+
+    export const defaultResolvers = {
+
+    }
 }

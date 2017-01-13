@@ -13,7 +13,7 @@ export namespace schema {
 
     export interface Query<Ctx> {
         single?: GraphqlField<{}, Single<Ctx> | undefined, Ctx>
-        aOrB?: GraphqlField<{}, AOrB<Ctx> | undefined, Ctx>
+        aOrB?: GraphqlField<{a: number}, AOrB<Ctx> | undefined, Ctx>
     }
 
     export interface A<Ctx> {

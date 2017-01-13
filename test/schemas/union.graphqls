@@ -11,5 +11,5 @@ union AOrB = A | B
 
 type Query {
   single: Single
-  aOrB: AOrB
+  aOrB(a: Int): AOrB
 }

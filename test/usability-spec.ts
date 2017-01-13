@@ -14,8 +14,10 @@ import path = require('path')
 import fs = require('fs')
 import {expect} from 'chai'
 import {buildSchema, graphql} from 'graphql'
+import {makeExecutableSchema} from 'graphql-tools'
 import {schema as simpleSchema} from './schemas/simpleSchema'
 import {schema as argumentSchema} from './schemas/arguments'
+import {schema as unionSchema} from './schemas/union'
 
 function fixture(filename) {
     return path.join(__dirname, 'schemas', filename)
@@ -115,4 +117,80 @@ describe('The arguments schema', async function () {
         })
     })
 
+})
+
+describe('The union schema (with graphql-tools)', async function () {
+    const schema = makeExecutableSchema({
+        typeDefs: read(fixture('union.graphqls')),
+        resolvers: unionSchema.defaultResolvers
+    })
+    const root = new class Query implements unionSchema.Query<{}> {
+        single() {
+            return {
+                __typename: 'A' as 'A',
+                aName: 'Hi there!'
+            }
+        }
+        aOrB({a}) {
+            if (a % 2 === 0) {
+                return {
+                    __typename: 'A' as 'A',
+                    aName: 'This is A'
+                }
+            } else {
+                return {
+                    __typename: 'B' as 'B',
+                    bName: 'This is B'
+                }
+            }
+        }
+    }()
+
+    it('Test with single value union', async function () {
+        const result = await graphql(
+            schema,
+            `{
+                single { ... on A { aName } }
+            }`,
+            root)
+        expect(result, 'Checking union-schema with single value').to.deep.equal({
+            data: {
+                single: {
+                    aName: 'Hi there!'
+                }
+            }
+        })
+    })
+
+    it('Test with multi value union to A', async function () {
+        const result = await graphql(
+            schema,
+            `{
+                aOrB(a: 0) { ... on A { aName } ... on B { bName } }
+            }`,
+            root)
+        expect(result, 'Checking union-schema with multi value (A)').to.deep.equal({
+            data: {
+                aOrB: {
+                    aName: 'This is A'
+                }
+            }
+        })
+    })
+
+    it('Test with multi value union to B', async function () {
+        const result = await graphql(
+            schema,
+            `{
+                aOrB(a: 1) { ... on A { aName } ... on B { bName } }
+            }`,
+            root)
+        expect(result, 'Checking union-schema with multi value (B)').to.deep.equal({
+            data: {
+                aOrB: {
+                    bName: 'This is B'
+                }
+            }
+        })
+    })
 })

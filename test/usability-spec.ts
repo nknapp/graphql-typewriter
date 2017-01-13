@@ -18,6 +18,7 @@ import {makeExecutableSchema} from 'graphql-tools'
 import {schema as simpleSchema} from './schemas/simpleSchema'
 import {schema as argumentSchema} from './schemas/arguments'
 import {schema as unionSchema} from './schemas/union'
+import {schema as interfaceSchema} from './schemas/interface'
 
 function fixture(filename) {
     return path.join(__dirname, 'schemas', filename)
@@ -131,8 +132,9 @@ describe('The union schema (with graphql-tools)', async function () {
                 aName: 'Hi there!'
             }
         }
-        aOrB({a}) {
-            if (a % 2 === 0) {
+
+        aOrB(args: {a: number}) {
+            if (args.a % 2 === 0) {
                 return {
                     __typename: 'A' as 'A',
                     aName: 'This is A'
@@ -190,6 +192,68 @@ describe('The union schema (with graphql-tools)', async function () {
                 aOrB: {
                     bName: 'This is B'
                 }
+            }
+        })
+    })
+})
+
+describe('The interface schema (with graphql-tools)', async function () {
+    const schema = makeExecutableSchema({
+        typeDefs: read(fixture('interface.graphqls')),
+        resolvers: interfaceSchema.defaultResolvers
+    })
+    const root = new class Query implements interfaceSchema.Query<{}> {
+        characters() {
+            return [
+                {
+                    __typename: 'Human' as 'Human',
+                    id: '1',
+                    name: 'Hans',
+                    friends: [{
+                        __typename: 'Human' as 'Human',
+                        id: '2',
+                        name: 'Marry',
+                        friends: []
+                    }, {
+                        __typename: 'Droid' as 'Droid',
+                        id: '3',
+                        name: 'Mr Robot',
+                        primaryFunction: 'music'
+                    }]
+                }
+            ]
+        }
+    }()
+
+    it('Test with array', async function () {
+        const result = await graphql(
+            schema,
+            `{
+                characters { 
+                    ... on Human {
+                        name
+                        friends {
+                            ... on Human { name }
+                            ... on Droid { name, primaryFunction }
+                        }
+                    }
+                    ... on Droid {
+                        name
+                    }
+                }
+            }`,
+            root)
+        expect(result, 'Checking union-schema with single value').to.deep.equal({
+            data: {
+                characters: [{
+                    name: 'Hans',
+                    friends: [{
+                        name: 'Marry'
+                    }, {
+                        name: 'Mr Robot',
+                        primaryFunction: 'music'
+                    }]
+                }]
             }
         })
     })

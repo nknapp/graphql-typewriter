@@ -18,4 +18,8 @@ export namespace schema {
     export interface A<Ctx> {
         name: GraphqlField<{}, string, Ctx>
     }
+
+    export const defaultResolvers = {
+
+    }
 }

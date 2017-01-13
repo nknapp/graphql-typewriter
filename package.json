@@ -42,21 +42,21 @@
   "dependencies": {
     "commander": "^2.9.0",
     "glob": "^7.1.1",
-    "graphql": "^0.7.2",
-    "m-io": "^0.1.1"
+    "graphql": "^0.8.2",
+    "m-io": "^0.3.1"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/commander": "^2.3.30",
     "@types/glob": "^5.0.30",
-    "@types/graphql": "^0.7.2",
+    "@types/graphql": "^0.8.6",
     "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.46",
+    "@types/node": "^7.0.0",
     "chai": "^3.5.0",
-    "ghooks": "^1.0.3",
-    "mocha": "^2.3.3",
+    "ghooks": "^2.0.0",
+    "mocha": "^3.2.0",
     "thoughtful-release": "^0.3.0",
-    "ts-node": "^1.7.0",
+    "ts-node": "^2.0.0",
     "tslint": "^4.3.1",
     "tslint-config-standard": "^2.0.0",
     "tslint-eslint-rules": "^3.2.3",

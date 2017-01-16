@@ -1,15 +1,15 @@
 {
-  "name": "gql2ts-for-server",
+  "name": "graphql-typewriter",
   "version": "0.3.0",
   "description": "Easy TypeScript interfaces for your GraphQL server",
   "repository": {
     "type": "git",
-    "url": "git@github.com:nknapp/gql2ts-for-server.git"
+    "url": "git@github.com:nknapp/graphql-typewriter.git"
   },
   "bin": {
-    "gql2ts-for-server": "bin/gql2ts-for-server.js"
+    "graphql-typewriter": "bin/graphql-typewriter"
   },
-  "homepage": "https://github.com/nknapp/gql2ts-for-server",
+  "homepage": "https://github.com/nknapp/graphql-typewriter",
   "preferGlobal": true,
   "author": {
     "name": "Nils Knappmeier",
@@ -24,7 +24,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/nknapp/gql2ts-for-server/issues"
+    "url": "https://github.com/nknapp/graphql-typewriter/issues"
   },
   "main": "src/index.js",
   "license": "MIT",

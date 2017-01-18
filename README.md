@@ -1,8 +1,8 @@
 # graphql-typewriter 
 
 [![NPM version](https://badge.fury.io/js/graphql-typewriter.svg)](http://badge.fury.io/js/graphql-typewriter)
-[![Travis Build Status](https://travis-ci.org/nknapp/gql2ts-for-server.svg?branch=master)](https://travis-ci.org/nknapp/gql2ts-for-server)
-[![Coverage Status](https://img.shields.io/coveralls/nknapp/gql2ts-for-server.svg)](https://coveralls.io/r/nknapp/gql2ts-for-server)
+[![Travis Build Status](https://travis-ci.org/nknapp/graphql-typewriter.svg?branch=master)](https://travis-ci.org/nknapp/graphql-typewriter)
+[![Coverage Status](https://img.shields.io/coveralls/nknapp/graphql-typewriter.svg)](https://coveralls.io/r/nknapp/graphql-typewriter)
 
 
 > Easy TypeScript interfaces for your GraphQL server
@@ -61,9 +61,11 @@ will be converted into the following `example.graphqls.ts`:
 
 ```ts
 /* tslint:disable */
+import {GraphQLResolveInfo} from 'graphql';
 
 export namespace schema {
-    export type Resolver<Args, Result, Ctx> = Result | Promise<Result> | ((args: Args, context: Ctx) => Result | Promise<Result>)
+    export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
+        ((args: Args, context: Ctx, info: GraphQLResolveInfo) => Result | Promise<Result>)
 
     /**
      * The base query
@@ -72,7 +74,7 @@ export namespace schema {
         /**
          * Retrieve a person by name
          */
-        person?: Resolver<{name: string}, Person<Ctx> | undefined, Ctx>
+        person?: GraphqlField<{name: string}, Person<Ctx> | undefined, Ctx>
     }
 
     /**
@@ -82,15 +84,19 @@ export namespace schema {
         /**
          * The persons name
          */
-        name: Resolver<{}, string, Ctx>
+        name: GraphqlField<{}, string, Ctx>
         /**
          * The persons age in years
          */
-        age: Resolver<{}, number, Ctx>
+        age: GraphqlField<{}, number, Ctx>
         /**
          * Friendship relations to other persons
          */
-        friends?: Resolver<{}, Person<Ctx>[] | undefined, Ctx>
+        friends?: GraphqlField<{}, Person<Ctx>[] | undefined, Ctx>
+    }
+
+    export const defaultResolvers = {
+
     }
 }
 ```

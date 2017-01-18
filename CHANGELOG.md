@@ -1,6 +1,29 @@
 # Release notes for `gql2ts-for-server`
 
 <a name="current-release"></a>
+# Version 0.4.0 (Wed, 18 Jan 2017 22:19:04 GMT)
+
+
+### Breaking changes
+
+* [153b923](https://github.com/nknapp/graphql-typewriter/commit/153b923) Rename project to graphql-typewriter (#27) - Nils Knappmeier
+
+### New features
+
+* [e2c8ec5](https://github.com/nknapp/graphql-typewriter/commit/e2c8ec5) Generate default resolvers for unions and interfaces. - Mario 
+
+### Tests 
+
+* [5df2569](https://github.com/nknapp/graphql-typewriter/commit/5df2569) Add usability spec for interfaces. - Mario Siegenthaler
+* [3488def](https://github.com/nknapp/graphql-typewriter/commit/3488def) Add usability spec for unions. - Mario Siegenthaler
+Siegenthaler
+
+### Chore
+
+* [f71ce95](https://github.com/nknapp/graphql-typewriter/commit/f71ce95) Remove unused ghooks-dependency - Nils Knappmeier
+* [17ff7d0](https://github.com/nknapp/graphql-typewriter/commit/17ff7d0) Update dependencies. - Mario Siegenthaler
+* [b6c5428](https://github.com/nknapp/graphql-typewriter/commit/b6c5428) Rename the type 'Resolver' to 'GraphqlField'. - Mario Siegenthaler
+
 # Version 0.3.0 (Wed, 11 Jan 2017 23:59:55 GMT)
 
 * [66262cf](https://github.com/nknapp/gql2ts-for-server/commit/66262cf) Add context via a generic parameter. - Mario Siegenthaler

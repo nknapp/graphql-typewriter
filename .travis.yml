@@ -9,7 +9,7 @@ script:
   - npm install istanbul remap-istanbul
   - istanbul cover --print none --report none ./node_modules/.bin/_mocha
   # Test that running the executable itself does not create an error
-  - bin/gql2ts-for-server.js
+  - node bin/graphql-typewriter.js
 after_script:
   # This will fail in node v4, but it does not matter, because it is in 
   # after_script

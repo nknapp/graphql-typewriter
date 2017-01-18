@@ -1,6 +1,6 @@
-# gql2ts-for-server 
+# graphql-typewriter 
 
-[![NPM version](https://badge.fury.io/js/gql2ts-for-server.svg)](http://badge.fury.io/js/gql2ts-for-server)
+[![NPM version](https://badge.fury.io/js/graphql-typewriter.svg)](http://badge.fury.io/js/graphql-typewriter)
 [![Travis Build Status](https://travis-ci.org/nknapp/gql2ts-for-server.svg?branch=master)](https://travis-ci.org/nknapp/gql2ts-for-server)
 [![Coverage Status](https://img.shields.io/coveralls/nknapp/gql2ts-for-server.svg)](https://coveralls.io/r/nknapp/gql2ts-for-server)
 
@@ -11,13 +11,13 @@
 # Installation
 
 ```
-npm install -g gql2ts-for-server
+npm install -g graphql-typewriter
 ```
 
 ### Usage
 
 ```
-Usage: gql2ts-for-server [options]
+Usage: graphql-typewriter [options]
 
   Convert all .graphqls schema-files in the current directory tree into typescript
 interfaces that can be used to implement a graphql-root for this schema.
@@ -30,7 +30,7 @@ interfaces that can be used to implement a graphql-root for this schema.
     --dont-save-same-file  do not save a file if the contents has not changed. This read each target file prior to loading
 ```
 
-`gql2ts-for-server` is assumed to be run in the root folder of a npm-project.
+`graphql-typewriter` is assumed to be run in the root folder of a npm-project.
 It finds all .graphqls files recursively and adds a .graphqls.ts file next each file
 (excluding the `node_modules`-folder).
 
@@ -185,7 +185,7 @@ The output of this program is
 
 ## License
 
-`gql2ts-for-server` is published under the MIT-license. 
+`graphql-typewriter` is published under the MIT-license. 
 See [LICENSE.md](LICENSE.md) for details.
 
 ## Release-Notes

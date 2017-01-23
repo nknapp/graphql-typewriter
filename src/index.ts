@@ -20,7 +20,7 @@ export class Converter {
     public async convert(graphqls: string): Promise<string> {
         const schema: any = buildSchema(graphqls)
         const renderer = new Renderer({})
-        const introSpection: any = await graphql(schema, introspectionQuery, {})
-        return renderer.render(introSpection)
+        const introspection: any = await graphql(schema, introspectionQuery, {})
+        return renderer.render(introspection)
     }
 }

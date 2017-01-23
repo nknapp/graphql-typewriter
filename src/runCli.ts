@@ -24,16 +24,22 @@ export async function runCli(cliArgs: CliArgs): Promise<any> {
 
     const converter = new Converter()
 
-    const promises = files.map(async (sourceFile) => {
+    const promises = files.map(async(sourceFile) => {
         const targetFile = sourceFile + '.ts'
         try {
             const source = await mfs.read(sourceFile, {encoding: 'utf-8'})
             const ts = await converter.convert(source)
             if (cliArgs.dontSaveSameFile) {
-                const oldContents = await mfs.read(targetFile)
-                if (oldContents === ts) {
-                    console.log(`${sourceFile} -> ${targetFile}`, 'success')
-                    return
+                try {
+                    const oldContents = await mfs.read(targetFile)
+                    if (oldContents === ts) {
+                        console.log(`${sourceFile} -> ${targetFile}`, 'success')
+                        return
+                    }
+                } catch (e) {
+                    if (e.code !== 'ENOENT') {
+                        throw e
+                    }
                 }
             }
             await mfs.write(targetFile, ts)

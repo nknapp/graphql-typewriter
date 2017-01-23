@@ -12,5 +12,5 @@ type Person {
     # The persons age in years
     age: Int!
     # Friendship relations to other persons
-    friends: [Person!]
+    friends: [Person]
 }

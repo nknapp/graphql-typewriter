@@ -1,9 +1,8 @@
 /* tslint:disable */
-import {GraphQLResolveInfo} from 'graphql';
 
 export namespace schema {
     export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
-        ((args: Args, context: Ctx, info: GraphQLResolveInfo) => Result | Promise<Result>)
+        ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     /**
      * The base query
@@ -30,7 +29,7 @@ export namespace schema {
         /**
          * Friendship relations to other persons
          */
-        friends?: GraphqlField<{}, Person<Ctx>[] | undefined, Ctx>
+        friends?: GraphqlField<{}, (Person<Ctx> | undefined)[] | undefined, Ctx>
     }
 
     export const defaultResolvers = {

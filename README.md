@@ -34,7 +34,7 @@ interfaces that can be used to implement a graphql-root for this schema.
 It finds all .graphqls files recursively and adds a .graphqls.ts file next each file
 (excluding the `node_modules`-folder).
 
-The source GraphQL-schema `example.graphqls` that looks like
+The source GraphQL-schema `simple-example.graphqls` that looks like
 
 ```graphql
 
@@ -51,21 +51,20 @@ type Person {
     # The persons age in years
     age: Int!
     # Friendship relations to other persons
-    friends: [Person!]
+    friends: [Person]
 }
 
 ```
 
 
-will be converted into the following `example.graphqls.ts`:
+will be converted into the following `simple-example.graphqls.ts`:
 
 ```ts
 /* tslint:disable */
-import {GraphQLResolveInfo} from 'graphql';
 
 export namespace schema {
     export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
-        ((args: Args, context: Ctx, info: GraphQLResolveInfo) => Result | Promise<Result>)
+        ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     /**
      * The base query
@@ -92,7 +91,7 @@ export namespace schema {
         /**
          * Friendship relations to other persons
          */
-        friends?: GraphqlField<{}, Person<Ctx>[] | undefined, Ctx>
+        friends?: GraphqlField<{}, (Person<Ctx> | undefined)[] | undefined, Ctx>
     }
 
     export const defaultResolvers = {
@@ -109,13 +108,15 @@ Note that all the field (non-argument) types can either be
 * a function generating the actual type (`(): Person`), or
 * a function generating a Promise (`(): Promise<Person>`)  
 
+which is represented by the interface `GraphqlField` in the generated sources.
+
 For fields with arguments, only the latter two apply.
 
-With this interface, you can write the following program (`example-usage.ts`):
+With this interface, you can write the following program (`usage.ts`):
 
 ```ts
 import {graphql, buildSchema} from 'graphql'
-import {schema} from './graphql/schema/example.graphqls'
+import {schema} from './simple-example.graphqls'
 import * as fs from 'fs'
 
 type Context = {
@@ -152,10 +153,10 @@ class Person implements schema.Person<Context> {
 
 // Run a query
 graphql(
-    buildSchema(fs.readFileSync('graphql/schema/example.graphqls', {encoding: 'utf-8'})),
+    buildSchema(fs.readFileSync('simple-example.graphqls', {encoding: 'utf-8'})),
     '{ person(name:"Joye") { name age friends { name age } }}',
     new Root(),
-    {year: 2017}
+    {year: 2017} // This could also be an authentication token
 ).then((result) => console.log(JSON.stringify(result, null, 2)))
 
 ```

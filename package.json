@@ -32,6 +32,7 @@
     "compile": "tsc --noUnusedLocals",
     "tslint": "tslint -e '**/*.d.ts' -e 'node_modules/**' '**/*.ts'",
     "test": "mocha && npm run tslint",
+    "prethought": "cd examples && node ../bin/graphql-typewriter --dont-save-same-file && git add '**/*.graphqls.ts'",
     "thought": "thought run -a",
     "prethoughtcheck": "thought --version || npm -g install thought",
     "thoughtcheck": "thought check-engines",

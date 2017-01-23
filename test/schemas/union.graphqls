@@ -5,8 +5,10 @@ type B {
   bName: String
 }
 
+# A union type consisting only of type A
 union Single = A
-# A or B
+
+# A union type that may be A or B
 union AOrB = A | B
 
 type Query {

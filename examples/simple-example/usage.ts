@@ -1,5 +1,5 @@
 import {graphql, buildSchema} from 'graphql'
-import {schema} from './graphql/schema/example.graphqls'
+import {schema} from './simple-example.graphqls'
 import * as fs from 'fs'
 
 type Context = {
@@ -36,8 +36,8 @@ class Person implements schema.Person<Context> {
 
 // Run a query
 graphql(
-    buildSchema(fs.readFileSync('graphql/schema/example.graphqls', {encoding: 'utf-8'})),
+    buildSchema(fs.readFileSync('simple-example.graphqls', {encoding: 'utf-8'})),
     '{ person(name:"Joye") { name age friends { name age } }}',
     new Root(),
-    {year: 2017}
+    {year: 2017} // This could also be an authentication token
 ).then((result) => console.log(JSON.stringify(result, null, 2)))

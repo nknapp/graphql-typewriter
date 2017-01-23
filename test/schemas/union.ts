@@ -4,10 +4,13 @@ export namespace schema {
     export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
         ((args: Args, context: Ctx) => Result | Promise<Result>)
 
+    /**
+     * A union type consisting only of type A
+     */
     export type Single<Ctx> = A<Ctx>
 
     /**
-     * A or B
+     * A union type that may be A or B
      */
     export type AOrB<Ctx> = A<Ctx> | B<Ctx>
 

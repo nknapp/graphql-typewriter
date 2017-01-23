@@ -1,0 +1,19 @@
+
+
+# A living person
+type Person {
+    firstname: String!
+    lastname: String!
+}
+
+# A company, NGO or something similar
+type Organization {
+    name: String!
+}
+
+# An item of the search result (may be Person or Organization)
+union ResultItem = Person | Organization
+
+type Query {
+    search(q: String): [ResultItem]!
+}

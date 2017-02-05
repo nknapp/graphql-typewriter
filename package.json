@@ -43,7 +43,7 @@
     "commander": "^2.9.0",
     "glob": "^7.1.1",
     "graphql": "^0.8.2",
-    "graphql-subscriptions": "^0.2.2",
+    "graphql-subscriptions": "^0.3.0",
     "graphql-tools": "^0.10.0",
     "m-io": "^0.3.1"
   },

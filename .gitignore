@@ -4,3 +4,4 @@ node_modules
 *.js.map
 *.d.ts
 *.js
+/test/schemas/*.graphqls.types.ts

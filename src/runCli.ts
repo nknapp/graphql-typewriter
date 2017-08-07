@@ -25,7 +25,7 @@ export async function runCli (cliArgs: CliArgs): Promise<any> {
     const converter = new Converter()
 
     const promises = files.map(async (sourceFile) => {
-        const targetFile = sourceFile + '.ts'
+        const targetFile = sourceFile + '.types.ts'
         try {
             const source = await mfs.read(sourceFile, {encoding: 'utf-8'})
             const ts = await converter.convert(source)

@@ -10,21 +10,21 @@
 // /* global xdescribe */
 // /* global xit */
 
-import {Converter} from '../src/index'
+import { Converter } from '../src/index'
 import path = require('path')
 import fs = require('fs')
-import {expect} from 'chai'
+import { expect } from 'chai'
 
 const converter = new Converter()
 
-function fixture(filename) {
+function fixture (filename) {
     return path.join(__dirname, 'schemas', filename)
 }
-function store(file, code) {
+function store (file, code) {
     return fs.writeFileSync(file, code)
 }
 
-function read(file) {
+function read (file) {
     return fs.readFileSync(file, {encoding: 'utf-8'}).trim()
 }
 

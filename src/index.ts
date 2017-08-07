@@ -5,8 +5,8 @@
  * Released under the MIT license.
  */
 
-import {graphql, introspectionQuery, buildSchema} from 'graphql'
-import {Renderer} from './render'
+import { graphql, introspectionQuery, buildSchema } from 'graphql'
+import { Renderer } from './render'
 
 /**
  * The converter class
@@ -17,7 +17,7 @@ export class Converter {
      * @param graphqls the source code of the graphQL schema
      * @return a Promise for the TypeScript source code.
      */
-    public async convert(graphqls: string): Promise<string> {
+    public async convert (graphqls: string): Promise<string> {
         const schema: any = buildSchema(graphqls)
         const renderer = new Renderer({})
         const introSpection: any = await graphql(schema, introspectionQuery, {})

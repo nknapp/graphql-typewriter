@@ -1,5 +1,5 @@
 import glob = require('glob')
-import {Converter} from './index'
+import { Converter } from './index'
 // Import via ES 5, node-style 'require', because there are no typings for this file (yet)
 const mfs = require('m-io/fs')
 
@@ -11,7 +11,7 @@ export interface CliArgs {
     dontSaveSameFile: boolean
 }
 
-export async function runCli(cliArgs: CliArgs): Promise<any> {
+export async function runCli (cliArgs: CliArgs): Promise<any> {
 
     // Remove default value from 'exclude', if explicit values have been provided
     if (cliArgs.exclude.length > 1) {

@@ -12,18 +12,18 @@
 
 import path = require('path')
 import fs = require('fs')
-import {expect} from 'chai'
-import {buildSchema, graphql} from 'graphql'
-import {makeExecutableSchema} from 'graphql-tools'
-import {schema as simpleSchema} from './schemas/simpleSchema'
-import {schema as argumentSchema} from './schemas/arguments'
-import {schema as unionSchema} from './schemas/union'
-import {schema as interfaceSchema} from './schemas/interface'
+import { expect } from 'chai'
+import { buildSchema, graphql } from 'graphql'
+import { makeExecutableSchema } from 'graphql-tools'
+import {schema as simpleSchema } from './schemas/simpleSchema'
+import {schema as argumentSchema } from './schemas/arguments'
+import {schema as unionSchema } from './schemas/union'
+import {schema as interfaceSchema } from './schemas/interface'
 
-function fixture(filename) {
+function fixture (filename) {
     return path.join(__dirname, 'schemas', filename)
 }
-function read(file) {
+function read (file) {
     return fs.readFileSync(file, {encoding: 'utf-8'})
 }
 
@@ -126,14 +126,14 @@ describe('The union schema (with graphql-tools)', async function () {
         resolvers: unionSchema.defaultResolvers
     })
     const root = new class Query implements unionSchema.Query<{}> {
-        single() {
+        single () {
             return {
                 __typename: 'A' as 'A',
                 aName: 'Hi there!'
             }
         }
 
-        aOrB(args: {a: number}) {
+        aOrB (args: {a: number}) {
             if (args.a % 2 === 0) {
                 return {
                     __typename: 'A' as 'A',
@@ -203,7 +203,7 @@ describe('The interface schema (with graphql-tools)', async function () {
         resolvers: interfaceSchema.defaultResolvers
     })
     const root = new class Query implements interfaceSchema.Query<{}> {
-        characters() {
+        characters () {
             return [
                 {
                     __typename: 'Human' as 'Human',
@@ -229,7 +229,7 @@ describe('The interface schema (with graphql-tools)', async function () {
         const result = await graphql(
             schema,
             `{
-                characters { 
+                characters {
                     ... on Human {
                         name
                         friends {

@@ -1,5 +1,5 @@
-import {source, OMIT_NEXT_NEWLINE} from '../src/renderTag'
-import {expect} from 'chai'
+import { source, OMIT_NEXT_NEWLINE } from '../src/renderTag'
+import { expect } from 'chai'
 
 describe('The renderTag function', function () {
     it('should render simple template literals like the default template literal', function () {

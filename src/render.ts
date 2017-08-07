@@ -1,5 +1,5 @@
-import {Root, TypeDef, Field, Argument, EnumValue, InputField} from './model'
-import {source, OMIT_NEXT_NEWLINE} from './renderTag'
+import { Root, TypeDef, Field, Argument, EnumValue, InputField } from './model'
+import { source, OMIT_NEXT_NEWLINE } from './renderTag'
 
 export interface Options {
     tslint?: Object
@@ -16,7 +16,7 @@ export class Renderer {
         '__Directive', '__DirectiveLocation'
     ])
 
-    constructor(options: Options) {
+    constructor (options: Options) {
         this.options = options
     }
 
@@ -25,7 +25,7 @@ export class Renderer {
      * @param root
      * @returns {string}
      */
-    render(root: Root): string {
+    render (root: Root): string {
         const namespace = source`
 export namespace schema {
     export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
@@ -48,7 +48,7 @@ ${namespace.replace(/^\s+$/mg, '')}`
      * @param types
      * @returns
      */
-    renderTypes(types: TypeDef[]) {
+    renderTypes (types: TypeDef[]) {
         return types
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'OBJECT')
@@ -61,7 +61,7 @@ ${namespace.replace(/^\s+$/mg, '')}`
      * @param type
      * @returns
      */
-    renderTypeDef(type: TypeDef, all: TypeDef[]): string {
+    renderTypeDef (type: TypeDef, all: TypeDef[]): string {
         return source`
 ${this.renderComment(type.description)}
 export interface ${type.name}<Ctx> ${this.renderExtends(type)}{
@@ -76,7 +76,7 @@ ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
      * @param forType
      * @param all
      */
-    renderTypename(forType: string, all: TypeDef[]): string {
+    renderTypename (forType: string, all: TypeDef[]): string {
         const usedBy = all
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'UNION' || type.kind === 'INTERFACE')
@@ -92,7 +92,7 @@ ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
      * @param type
      * @returns
      */
-    renderExtends(type: TypeDef): string {
+    renderExtends (type: TypeDef): string {
         if (type.interfaces && type.interfaces.length > 0) {
             const interfaces = type.interfaces.map((it) => `${it.name}<Ctx>`).join(', ')
             return `extends ${interfaces} `
@@ -106,7 +106,7 @@ ${type.fields.map((field) => this.renderMemberWithComment(field)).join('\n')}
      * @param field
      * @returns
      */
-    renderMemberWithComment(field: Field): string {
+    renderMemberWithComment (field: Field): string {
         return source`
 ${this.renderComment(field.description)}
 ${this.renderMember(field)}
@@ -118,7 +118,7 @@ ${this.renderMember(field)}
      * @param field
      * @returns {string}
      */
-    renderMember(field: Field) {
+    renderMember (field: Field) {
         const optional = field.type.kind !== 'NON_NULL'
         const type = this.renderType(field.type, false)
         const resultType = optional ? `${type} | undefined` : type
@@ -131,11 +131,11 @@ ${this.renderMember(field)}
      * Render a single return type (or field type)
      * This function creates the base type that is then used as generic to a promise
      */
-    renderType(type, optional: boolean) {
-        function maybeOptional(arg) {
+    renderType (type, optional: boolean) {
+        function maybeOptional (arg) {
             return optional ? `(${arg} | undefined)` : arg
         }
-        function generic(arg) {
+        function generic (arg) {
             return `${arg}<Ctx>`
         }
 
@@ -159,7 +159,7 @@ ${this.renderMember(field)}
     /**
      * Render a description as doc-comment
      */
-    renderComment(description: string): string | typeof OMIT_NEXT_NEWLINE {
+    renderComment (description: string): string | typeof OMIT_NEXT_NEWLINE {
         if (!description) {
             // Parsed by the `source` tag-function to remove the next newline
             return OMIT_NEXT_NEWLINE
@@ -170,7 +170,7 @@ ${this.renderMember(field)}
     /**
      * Render the arguments of a function
      */
-    renderArgumentType(args: Argument[]) {
+    renderArgumentType (args: Argument[]) {
         const base = args.map((arg) => {
             return `${arg.name}: ${this.renderType(arg.type, false)}`
         }).join(', ')
@@ -182,7 +182,7 @@ ${this.renderMember(field)}
      * @param types
      * @returns
      */
-    renderEnums(types: TypeDef[]) {
+    renderEnums (types: TypeDef[]) {
         return types
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'ENUM')
@@ -195,7 +195,7 @@ ${this.renderMember(field)}
      * @param type
      * @returns
      */
-    renderEnum(type: TypeDef): string {
+    renderEnum (type: TypeDef): string {
         return source`
 ${this.renderComment(type.description)}
 export type ${type.name} = ${type.enumValues.map((value) => `'${value.name}'`).join(' | ')}
@@ -211,7 +211,7 @@ export const ${type.name}: {
     /**
      * Renders a type definition for an enum value.
      */
-    renderEnumValueType(value: EnumValue): string {
+    renderEnumValueType (value: EnumValue): string {
         return source`
 ${value.name}: '${value.name}',
 `
@@ -220,7 +220,7 @@ ${value.name}: '${value.name}',
     /**
      * Renders a the definition of an enum value.
      */
-    renderEnumValue(value: EnumValue): string {
+    renderEnumValue (value: EnumValue): string {
         return source`
 ${this.renderComment(value.description)}
 ${value.name}: '${value.name}',
@@ -232,7 +232,7 @@ ${value.name}: '${value.name}',
      * @param types
      * @returns
      */
-    renderUnions(types: TypeDef[]) {
+    renderUnions (types: TypeDef[]) {
         return types
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'UNION')
@@ -245,7 +245,7 @@ ${value.name}: '${value.name}',
      * @param type
      * @returns
      */
-    renderUnion(type: TypeDef): string {
+    renderUnion (type: TypeDef): string {
         // Scalars cannot be used in unions, so we're safe here
         const unionValues = type.possibleTypes.map(type => `${type.name}<Ctx>`).join(' | ')
         return source`
@@ -260,7 +260,7 @@ export type ${type.name}<Ctx> = ${unionValues}
      * @param types
      * @returns
      */
-    renderInterfaces(types: TypeDef[]) {
+    renderInterfaces (types: TypeDef[]) {
         return types
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'INTERFACE')
@@ -273,7 +273,7 @@ export type ${type.name}<Ctx> = ${unionValues}
      * @param type
      * @returns
      */
-    renderInterface(type: TypeDef): string {
+    renderInterface (type: TypeDef): string {
         return source`
 ${this.renderComment(type.description)}
 export interface ${type.name}<Ctx> {
@@ -287,7 +287,7 @@ export interface ${type.name}<Ctx> {
      * @param types
      * @returns
      */
-    renderInputObjects(types: TypeDef[]) {
+    renderInputObjects (types: TypeDef[]) {
         return types
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'INPUT_OBJECT')
@@ -300,7 +300,7 @@ export interface ${type.name}<Ctx> {
      * @param type
      * @returns
      */
-    renderInputObject(type: TypeDef): string {
+    renderInputObject (type: TypeDef): string {
         return source`
 ${this.renderComment(type.description)}
 export interface ${type.name} {
@@ -314,7 +314,7 @@ export interface ${type.name} {
      * @param field
      * @returns
      */
-    renderInputMemberWithComment(field: InputField): string {
+    renderInputMemberWithComment (field: InputField): string {
         return source`
 ${this.renderComment(field.description)}
 ${this.renderInputMember(field)}
@@ -326,7 +326,7 @@ ${this.renderInputMember(field)}
      * @param field
      * @returns {string}
      */
-    renderInputMember(field: InputField) {
+    renderInputMember (field: InputField) {
         const type = this.renderType(field.type, false)
         // Render property as field, with the option of being of a function-type () => ReturnValue
         const optional = field.type.kind !== 'NON_NULL'
@@ -339,7 +339,7 @@ ${this.renderInputMember(field)}
      * @param types
      * @return string
      */
-    renderDefaultResolvers(types: TypeDef[]): string {
+    renderDefaultResolvers (types: TypeDef[]): string {
         const resolvers = types
             .filter((type) => !this.introspectionTypes[type.name])
             .filter((type) => type.kind === 'UNION' || type.kind === 'INTERFACE')
@@ -357,7 +357,7 @@ ${resolvers}
      * @param type
      * @return string
      */
-    renderResolver(type: TypeDef): string {
+    renderResolver (type: TypeDef): string {
         return source`
     ${type.name}: {
         __resolveType(obj) {
@@ -380,7 +380,7 @@ const scalars = {
  * @param array
  * @returns {{}}
  */
-function setOf(array: string[]): {[key: string]: boolean} {
+function setOf (array: string[]): {[key: string]: boolean} {
     return array.reduce(
         (set, current): {[key: string]: boolean} => {
             set[current] = true

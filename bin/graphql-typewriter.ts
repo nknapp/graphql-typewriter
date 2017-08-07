@@ -1,9 +1,9 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 
 import program = require('commander')
-import {runCli} from '../src/runCli'
+import { runCli } from '../src/runCli'
 
-function stringArray(arg: any, message: string): string[] {
+function stringArray (arg: any, message: string): string[] {
     if (!arg) {
         throw new Error(`${message}: Value not set`)
     }

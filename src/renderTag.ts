@@ -22,7 +22,7 @@ export const OMIT_NEXT_NEWLINE = {
  * @param a5 string substitution
  * @param a6 string substitution
  */
-export function source(array, a1, a2?, a3?, a4?, a5?, a6? /* dynamic args */) {
+export function source (array, a1, a2?, a3?, a4?, a5?, a6? /* dynamic args */) {
     const args = Array.prototype.slice.call(arguments, 1)
     let result = array[0]
     for (let i = 0; i < args.length; i++) {

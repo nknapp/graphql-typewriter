@@ -1,5 +1,5 @@
 import { graphql, buildSchema } from 'graphql'
-import { schema } from './graphql/schema/example.graphqls'
+import { schema } from './graphql/schema/example.graphqls.types'
 import * as fs from 'fs'
 
 type Context = {

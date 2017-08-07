@@ -1,9 +1,8 @@
 # graphql-typewriter 
 
-[![NPM version](https://badge.fury.io/js/graphql-typewriter.svg)](http://badge.fury.io/js/graphql-typewriter)
+[![NPM version](https://img.shields.io/npm/v/graphql-typewriter.svg)](https://npmjs.com/package/graphql-typewriter)
 [![Travis Build Status](https://travis-ci.org/nknapp/graphql-typewriter.svg?branch=master)](https://travis-ci.org/nknapp/graphql-typewriter)
 [![Coverage Status](https://img.shields.io/coveralls/nknapp/graphql-typewriter.svg)](https://coveralls.io/r/nknapp/graphql-typewriter)
-
 
 > Easy TypeScript interfaces for your GraphQL server
 
@@ -22,12 +21,13 @@ Usage: graphql-typewriter [options]
   Convert all .graphqls schema-files in the current directory tree into typescript
 interfaces that can be used to implement a graphql-root for this schema.
 
+
   Options:
 
-    -h, --help             output usage information
     -V, --version          output the version number
     -x, --exclude <dirs>   a list of directories to exclude
     --dont-save-same-file  do not save a file if the contents has not changed. This read each target file prior to loading
+    -h, --help             output usage information
 ```
 
 `graphql-typewriter` is assumed to be run in the root folder of a npm-project.
@@ -57,15 +57,14 @@ type Person {
 ```
 
 
-will be converted into the following `example.graphqls.ts`:
+will be converted into the following `example.graphqls.types.ts`:
 
 ```ts
 /* tslint:disable */
-import {GraphQLResolveInfo} from 'graphql';
 
 export namespace schema {
     export type GraphqlField<Args, Result, Ctx> = Result | Promise<Result> |
-        ((args: Args, context: Ctx, info: GraphQLResolveInfo) => Result | Promise<Result>)
+        ((args: Args, context: Ctx) => Result | Promise<Result>)
 
     /**
      * The base query
@@ -114,8 +113,8 @@ For fields with arguments, only the latter two apply.
 With this interface, you can write the following program (`example-usage.ts`):
 
 ```ts
-import {graphql, buildSchema} from 'graphql'
-import {schema} from './graphql/schema/example.graphqls'
+import { graphql, buildSchema } from 'graphql'
+import { schema } from './graphql/schema/example.graphqls.types'
 import * as fs from 'fs'
 
 type Context = {
@@ -124,7 +123,7 @@ type Context = {
 
 // Implement the generated interface
 class Root implements schema.Query<Context> {
-    person(args: {name: string}) {
+    person (args: {name: string}) {
         return new Person(args.name, 1981)
     }
 }
@@ -133,16 +132,16 @@ class Person implements schema.Person<Context> {
     name: string
     yearOfBirth: number
 
-    constructor(name: string, yearOfBirth: number) {
+    constructor (name: string, yearOfBirth: number) {
         this.name = name
         this.yearOfBirth = yearOfBirth
     }
 
-    age(_, context: Context) {
+    age (_, context: Context) {
         return context.year - this.yearOfBirth
     }
 
-    async friends(): Promise<Person[]> {
+    async friends (): Promise<Person[]> {
         return Promise.resolve([
             new Person(this.name + "'s first friend", this.yearOfBirth - 1),
             new Person(this.name + "'s second friend", this.yearOfBirth - 2)
@@ -189,15 +188,17 @@ The output of this program is
 
 
 
-## License
+# License
 
-`graphql-typewriter` is published under the MIT-license. 
+`graphql-typewriter` is published under the MIT-license.
+
 See [LICENSE.md](LICENSE.md) for details.
 
-## Release-Notes
+
+# Release-Notes
  
 For release notes, see [CHANGELOG.md](CHANGELOG.md)
  
-## Contributing guidelines
+# Contributing guidelines
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).

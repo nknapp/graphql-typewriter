@@ -1,6 +1,17 @@
 # Release notes for `gql2ts-for-server`
 
 <a name="current-release"></a>
+# Version 1.0.0 (Wed, 16 Aug 2017 19:23:53 GMT)
+
+* [97502e2](https://github.com/nknapp/graphql-typewriter/commit/97502e2) BREAKING: Target files are now generated as "name.graphql.types.ts" - Nils Knappmeier
+* [fe35e2a](https://github.com/nknapp/graphql-typewriter/commit/fe35e2a) Code-Style and Chore, BREAKING: Remove support for Node 7 - Nils Knappmeier
+* [7f686a9](https://github.com/nknapp/graphql-typewriter/commit/7f686a9) Bump versions - Nils Knappmeier
+* [e4ea239](https://github.com/nknapp/graphql-typewriter/commit/e4ea239) fix(package): update m-io to version 0.5.0 - greenkeeper[bot]
+* [551f207](https://github.com/nknapp/graphql-typewriter/commit/551f207) fix(package): update m-io to version 0.4.0 - greenkeeper[bot]
+* [0834387](https://github.com/nknapp/graphql-typewriter/commit/0834387) fix(package): update graphql-tools to version 0.10.0 (#33) - greenkeeper[bot]
+* [5caaeff](https://github.com/nknapp/graphql-typewriter/commit/5caaeff) fix(package): update graphql-subscriptions to version 0.3.0 (#34) - greenkeeper[bot]
+* [453665d](https://github.com/nknapp/graphql-typewriter/commit/453665d) chore(package): update tslint-config-standard to version 3.0.0 (#28) - greenkeeper[bot]
+
 # Version 0.4.0 (Wed, 18 Jan 2017 22:19:04 GMT)
 
 
